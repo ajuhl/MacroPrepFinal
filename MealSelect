@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+    border-collapse: separate;
+    width: 100%;
+    border: 1px solid black;
+} 
+
+td {
+    border: 1px solid black;
+}
+
+</style>
+</head>
+<body>
+
+<p>Meal Prep</p>
+<table class="m1">
+  <tr>
+     <td width="10%">Meal 1</td>
+
+    <td width="50%"><br>Protein <select> </select>
+   <br>Carbs <select> </select> 
+   <br>Fats <select> </select> </td>
+  <tr>
+</table>
+<table class="m2">
+  <tr>
+     <td width="10%">Meal 2</td>
+
+    <td width="50%"><br>Protein <select> </select>
+   <br>Carbs <select> </select> 
+   <br>Fats <select> </select> </td>
+  <tr>
+</table>
+<table class="31">
+  <tr>
+     <td width="10%">Meal 3</td>
+
+    <td width="50%"><br>Protein <select> </select>
+   <br>Carbs <select> </select> 
+   <br>Fats <select> </select> </td>
+  <tr>
+</table>
+<table class="m4">
+  <tr>
+     <td width="10%">Meal 4</td>
+
+    <td width="50%"><br>Protein <select> </select>
+   <br>Carbs <select> </select> 
+   <br>Fats <select> </select> </td>
+  <tr>
+</table>
+</body>
+</html>
