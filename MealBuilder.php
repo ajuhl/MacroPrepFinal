@@ -1,16 +1,16 @@
 <?php
 
-/*$protein = $_POST['protein'];
-$carb = $_POST['carb'];
-$fat = $_POST['fat'];
-$meals = $_POST['meals'];*/
+$protein = $_POST['protein'];
+$carb = $_POST['carbs'];
+$fat = $_POST['fats'];
+$meals = $_POST['numberMeals'];
 
-$protein = 252;
+/*$protein = 252;
 $carb = 137;
 $fat = 37;
-$meals = 4;
+$meals = 4;*/
 
-function nutrientArray($nutrient){
+function nutrientArray($nutrient, $meals){
   $part = $nutrient/$meals;
   $part = floor($part);
   $whole = $part * $meals;
@@ -27,12 +27,14 @@ function nutrientArray($nutrient){
 }
 
 
-$proteinArr = nutrientArray($protein);
-$carbArr = nutrientArray($carb);
-$fatArr = nutrientArray($fat);
+$proteinArr = nutrientArray($protein,$meals);
+$carbArr = nutrientArray($carb,$meals);
+$fatArr = nutrientArray($fat,$meals);
 
-echo $proteinArr."<br>";
-echo $carbArr."<br>";
-echo $fatArr."<br>";
+print_r($proteinArr);
+echo "<br>";
+print_r ($carbArr);
+echo "<br>";
+print_r ($fatArr);
 
 ?>
