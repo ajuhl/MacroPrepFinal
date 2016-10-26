@@ -37,12 +37,27 @@ print_r ($carbArr);
 echo "<br>";
 print_r ($fatArr);*/
 
+require_once('serverConnect.php') or die('Could not connect to nutrient server.');
+global $conn;
+
 for($i = 0; $i < $meals; $i++)
 {
   echo ("Meal ".($i+1)."<br>");
+
   echo ("Protein: $proteinArr[$i]g<br>");
+  echo '<select class="js-example-basic-single">';
+  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'c\'');
+  while($row = $result->fetch_assoc()){
+     echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+  }
+  echo '</select>';
+
   echo ("Carbs: $carbArr[$i]g<br>");
+
+
   echo ("Fats: $fatArr[$i]g<br><br><br>");
+
+
 }
 
 ?>
