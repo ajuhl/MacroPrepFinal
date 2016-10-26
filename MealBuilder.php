@@ -4,7 +4,9 @@
 	<script src="select2.min.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
-	  $(".js-example-basic-single").select2({placeholder:'Select a food'});
+	  $(".js-example-basic-single").select2({
+			placeholder: 'Select a food'
+			});
 	});
 	</script>
 	<style>
@@ -14,6 +16,10 @@
 	</style>
 </head>
 
+<body>
+
+<form action="MealPlan.php" method="POST">
+
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -21,6 +27,11 @@ $protein = $_POST['protein'];
 $carb = $_POST['carbs'];
 $fat = $_POST['fats'];
 $meals = $_POST['numberMeals'];
+
+echo '<input type="hidden" name="protein" value="'.$protein.'">';
+echo '<input type="hidden" name="carb" value="'.$carb.'">';
+echo '<input type="hidden" name="fat" value="'.$fat.'">';
+echo '<input type="hidden" name="meals" value="'.$meals.'">';
 
 /*$protein = 252;
 $carb = 137;
@@ -90,3 +101,9 @@ for($i = 0; $i < $meals; $i++)
 }
 
 ?>
+
+<input type="submit" value="Submit"></input>
+
+</form>
+
+</html>
