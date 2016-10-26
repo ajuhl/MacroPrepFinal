@@ -31,10 +31,18 @@ $proteinArr = nutrientArray($protein,$meals);
 $carbArr = nutrientArray($carb,$meals);
 $fatArr = nutrientArray($fat,$meals);
 
-print_r($proteinArr);
+/*print_r($proteinArr);
 echo "<br>";
 print_r ($carbArr);
 echo "<br>";
-print_r ($fatArr);
+print_r ($fatArr);*/
+
+for($i = 0; $i < $meals; $i++)
+{
+  echo ("Meal ".($i+1)."<br>");
+  echo ("Protein: $proteinArr[$i]g<br>");
+  echo ("Carbs: $carbArr[$i]g<br>");
+  echo ("Fats: $fatArr[$i]g<br><br><br>");
+}
 
 ?>
