@@ -1,5 +1,6 @@
 <?php
-
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 $protein = $_POST['protein'];
 $carb = $_POST['carbs'];
 $fat = $_POST['fats'];
@@ -18,7 +19,7 @@ function nutrientArray($nutrient, $meals){
 
   for($i=0;$i<$meals;$i++){
     $arr[$i] = $part;
-    if($diff != 0){
+    if($dif != 0){
       $arr[$i] = $arr[$i]+1;
       $dif--;
     }
@@ -37,7 +38,9 @@ print_r ($carbArr);
 echo "<br>";
 print_r ($fatArr);*/
 
-require_once('serverConnect.php') or die('Could not connect to nutrient server.');
+require_once('serverConnect.php');
+
+
 global $conn;
 
 for($i = 0; $i < $meals; $i++)
