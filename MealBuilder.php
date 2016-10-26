@@ -28,6 +28,7 @@ $carb = $_POST['carbs'];
 $fat = $_POST['fats'];
 $meals = $_POST['numberMeals'];
 
+//hidden value fields to pass this data into MealPlan.php
 echo '<input type="hidden" name="protein" value="'.$protein.'">';
 echo '<input type="hidden" name="carb" value="'.$carb.'">';
 echo '<input type="hidden" name="fat" value="'.$fat.'">';
@@ -53,8 +54,7 @@ function nutrientArray($nutrient, $meals){
   }
   return $arr;
 }
-
-
+//calculate nutrient values for each meal based on daily goal and number of meals
 $proteinArr = nutrientArray($protein,$meals);
 $carbArr = nutrientArray($carb,$meals);
 $fatArr = nutrientArray($fat,$meals);
@@ -70,11 +70,13 @@ require_once('serverConnect.php');
 
 global $conn;
 
-for($i = 0; $i < $meals; $i++)
+for($i = 0; $i < $meals; $i++)//for each meal
 {
   echo ("Meal ".($i+1)."<br>");
-
+  
+  //display goal for protein
   echo ("Protein: $proteinArr[$i]g<br>");
+  //list all mainly protein foods from database into select box
   echo '<select class="js-example-basic-single" name="m'.$i.'protein">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'p\'');
   while($row = $result->fetch_assoc()){
@@ -82,7 +84,9 @@ for($i = 0; $i < $meals; $i++)
   }
   echo '</select><br>';
 
+  //display goal for carbs
   echo ("Carbs: $carbArr[$i]g<br>");
+  //list all mainly carb foods from database
   echo '<select class="js-example-basic-single" name="m'.$i.'carb">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'c\'');
   while($row = $result->fetch_assoc()){
@@ -90,7 +94,9 @@ for($i = 0; $i < $meals; $i++)
   }
   echo '</select><br>';
 
+  //display goal for fat
   echo ("Fats: $fatArr[$i]g<br>");
+  //list all mainly fat foods from database
   echo '<select class="js-example-basic-single" name="m'.$i.'fat">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'f\'');
   while($row = $result->fetch_assoc()){

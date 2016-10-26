@@ -5,6 +5,7 @@ ini_set("display_errors", 1);
 require_once('serverConnect.php');
 global $conn;
 
+//get daily totals and number of meals
 $protein = $_POST['protein'];
 $carb = $_POST['carb'];
 $fat = $_POST['fat'];
@@ -25,8 +26,7 @@ function nutrientArray($nutrient, $meals){
   }
   return $arr;
 }
-
-
+//calculate per meal goals based on totals
 $proteinArr = nutrientArray($protein,$meals);
 $carbArr = nutrientArray($carb,$meals);
 $fatArr = nutrientArray($fat,$meals);
@@ -37,7 +37,7 @@ for($i=0; $i<intval($_POST['meals']); $i++){
 	echo '<input id="m'.$i.'carb" type="hidden" value="'.$carbArr[$i].'">';
 	echo '<input id="m'.$i.'fat" type="hidden" value="'.$fatArr[$i].'">';
 	
-	//macronutrient values for protein selected
+	//macronutrient values for protein selected in i-th meal
 	$proteinID = $_POST['m'.$i.'protein'];
 	$presult = $conn->query('SELECT `protein`,`fat`,`carbs` FROM foods WHERE `id`='.$proteinID);
 	$row = $presult->fetch_row();
@@ -45,7 +45,7 @@ for($i=0; $i<intval($_POST['meals']); $i++){
 	echo '<input id="m'.$i.'proteinc" type="hidden" value="'.$row[1].'">';
 	echo '<input id="m'.$i.'proteinf" type="hidden" value="'.$row[2].'">';
 	
-	//macronutrient values for carb selected
+	//macronutrient values for carb selected in i-th meal
 	$carbID = $_POST['m'.$i.'carb'];
 	$presult = $conn->query('SELECT `protein`,`fat`,`carbs` FROM foods WHERE `id`='.$carbID);
 	$row = $presult->fetch_row();
@@ -53,7 +53,7 @@ for($i=0; $i<intval($_POST['meals']); $i++){
 	echo '<input id="m'.$i.'carbc" type="hidden" value="'.$row[1].'">';
 	echo '<input id="m'.$i.'carbf" type="hidden" value="'.$row[2].'">';
 	
-	//macronutrient values for fat selected
+	//macronutrient values for fat selected in i-th meal
 	$fatID = $_POST['m'.$i.'fat'];
 	$presult = $conn->query('SELECT `protein`,`fat`,`carbs` FROM foods WHERE `id`='.$fatID);
 	$row = $presult->fetch_row();
