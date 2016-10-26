@@ -1,3 +1,19 @@
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link href="select2.min.css" rel="stylesheet" />
+	<script src="select2.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	  $(".js-example-basic-single").select2({placeholder:'Select a food'});
+	});
+	</script>
+	<style>
+		select,.select2{
+			width:500px !important;
+		}
+	</style>
+</head>
+
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -48,18 +64,28 @@ for($i = 0; $i < $meals; $i++)
   echo ("Meal ".($i+1)."<br>");
 
   echo ("Protein: $proteinArr[$i]g<br>");
-  echo '<select class="js-example-basic-single">';
+  echo '<select class="js-example-basic-single" name="m'.$i.'protein">';
+  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'p\'');
+  while($row = $result->fetch_assoc()){
+     echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+  }
+  echo '</select><br>';
+
+  echo ("Carbs: $carbArr[$i]g<br>");
+  echo '<select class="js-example-basic-single" name="m'.$i.'carb">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'c\'');
   while($row = $result->fetch_assoc()){
      echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
   }
-  echo '</select>';
+  echo '</select><br>';
 
-  echo ("Carbs: $carbArr[$i]g<br>");
-
-
-  echo ("Fats: $fatArr[$i]g<br><br><br>");
-
+  echo ("Fats: $fatArr[$i]g<br>");
+  echo '<select class="js-example-basic-single" name="m'.$i.'fat">';
+  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'f\'');
+  while($row = $result->fetch_assoc()){
+     echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+  }
+  echo '</select><br><br>';
 
 }
 
