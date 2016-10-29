@@ -118,12 +118,15 @@ for($m=0; $m<$mealQty; $m++){
 				</tr>";
  for($f=0; $f<$foodQty; $f++){
     $foodID = $_POST['m'.$m.'f'.$f];
-    $presult = $conn->query('SELECT `name` FROM `foods` WHERE `id`='.$foodID);
-  	$name = $presult->fetch_row();
+    $presult = $conn->query('SELECT `name`,`measure` FROM `foods` WHERE `id`='.$foodID);
+  	$nameMeasure = $presult->fetch_row();
+	$measure = $nameMeasure[1];
+	$measure = explode(" ", $measure, 2);
+	$servingSize = $servings[$f][$foodQty] * $measure[0];
 	echo "
 				<tr>
-					<td>".$name[0]."</td>
-					<td>".round($servings[$f][$foodQty],0,PHP_ROUND_HALF_UP)."</td>
+					<td>".$nameMeasure[0]."</td>
+					<td>".round($servingSize,0,PHP_ROUND_HALF_UP)." ".$measure[1]."</td>
 				</tr>";
 
   }
