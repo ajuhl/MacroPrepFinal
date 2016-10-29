@@ -23,75 +23,64 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
-$protein = $_POST['protein'];
-$carb = $_POST['carbs'];
-$fat = $_POST['fats'];
-$meals = $_POST['numberMeals'];
+$totalProtein = $_POST['protein'];
+$totalCarb = $_POST['carb'];
+$totalFat = $_POST['fat'];
+$mealQty = $_POST['mealQty'];
 
-echo '<input type="hidden" name="protein" value="'.$protein.'">';
-echo '<input type="hidden" name="carb" value="'.$carb.'">';
-echo '<input type="hidden" name="fat" value="'.$fat.'">';
-echo '<input type="hidden" name="meals" value="'.$meals.'">';
+echo '<input type="hidden" name="protein" value="'.$totalProtein.'">';
+echo '<input type="hidden" name="carb" value="'.$totalCarb.'">';
+echo '<input type="hidden" name="fat" value="'.$totalFat.'">';
+echo '<input type="hidden" name="meals" value="'.$mealQty.'">';
 
-/*$protein = 252;
-$carb = 137;
-$fat = 37;
-$meals = 4;*/
 
-function nutrientArray($nutrient, $meals){
-  $part = $nutrient/$meals;
-  $part = floor($part);
-  $whole = $part * $meals;
-  $dif= $nutrient - $whole;
+function nutrientDivision($nutrientTotal, $mealQty){
+  $individual = floor($nutrientTotal/$mealQty);
+  $total = $individual * $mealQty;
+  $leftOver = $nutrientTotal - $total;
 
-  for($i=0;$i<$meals;$i++){
-    $arr[$i] = $part;
-    if($dif != 0){
-      $arr[$i] = $arr[$i]+1;
-      $dif--;
+  for($i=0;$i<$mealQty;$i++){
+    $nutrientDivided[$i] = $individual;
+    if($leftOver != 0){
+      $nutrientDivided[$i] = $nutrientDivided[$i]+1;
+      $leftOver--;
     }
   }
-  return $arr;
+  return $nutrientDivided;
 }
 
 
-$proteinArr = nutrientArray($protein,$meals);
-$carbArr = nutrientArray($carb,$meals);
-$fatArr = nutrientArray($fat,$meals);
-
-/*print_r($proteinArr);
-echo "<br>";
-print_r ($carbArr);
-echo "<br>";
-print_r ($fatArr);*/
+$proteinPerMeal = nutrientDivision($totalProtein,$mealQty);
+$carbPerMeal = nutrientDivision($totalCarb,$mealQty);
+$fatPerMeal = nutrientDivision($totalFat,$mealQty);
 
 require_once('serverConnect.php');
 
 
 global $conn;
 
-for($i = 0; $i < $meals; $i++)
+for($m = 0; $m < $mealQty; $m++)
 {
-  echo ("Meal ".($i+1)."<br>");
-
-  echo ("Protein: $proteinArr[$i]g<br>");
-  echo '<select class="js-example-basic-single" name="m'.$i.'protein">';
+  echo ("<h2>Meal ".($m+1)." Macro's</h2>");
+  echo "<h4>Protein: ".$proteinPerMeal[$m]."g, Carbs: ".$carbPerMeal[$m]."g, Fats: ".$fatPerMeal[$m]."g</h4>";
+  echo ("Protein Selection<br>");
+  echo '<select class="js-example-basic-single" name="m'.$m.'f0">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'p\'');
   while($row = $result->fetch_assoc()){
      echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
   }
   echo '</select><br>';
 
-  echo ("Carbs: $carbArr[$i]g<br>");
-  echo '<select class="js-example-basic-single" name="m'.$i.'carb">';
+  echo ("Carb Selection<br>");
+  echo '<select class="js-example-basic-single" name="m'.$m.'f1">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'c\'');
   while($row = $result->fetch_assoc()){
      echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
   }
   echo '</select><br>';
 
-  echo ("Fats: $fatArr[$i]g<br>");
-  echo '<select class="js-example-basic-single" name="m'.$i.'fat">';
+  echo ("Fat Selection<br>");
+  echo '<select class="js-example-basic-single" name="m'.$m.'f2">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'f\'');
   while($row = $result->fetch_assoc()){
      echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
