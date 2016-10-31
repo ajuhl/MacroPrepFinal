@@ -31,6 +31,7 @@ function nutrientDivision($nutrientTotal, $mealQty){
 
 function rref($matrix)
 {
+
     $lead = 0;
     $rowCount = count($matrix);
     if ($rowCount == 0)
@@ -39,6 +40,7 @@ function rref($matrix)
     if (isset($matrix[0])) {
         $columnCount = count($matrix[0]);
     }
+
     for ($r = 0; $r < $rowCount; $r++) {
         if ($lead >= $columnCount)
             break;        {
@@ -55,23 +57,61 @@ function rref($matrix)
             $temp = $matrix[$r];
             $matrix[$r] = $matrix[$i];
             $matrix[$i] = $temp;
+		//	echo "<br>";
+				for($x=0; $x<$rowCount; $x++){
+		for($y=0; $y<$columnCount; $y++){
+		//	echo $matrix[$x][$y]." ";
+		}
+	//	echo "<br>";
+	}
+//	echo "<br>";
         }        {
             $lv = $matrix[$r][$lead];
+		//	echo ($lv." lead value<br>");
             for ($j = 0; $j < $columnCount; $j++) {
                 $matrix[$r][$j] = $matrix[$r][$j] / $lv;
+				//echo ($matrix[$r][$j]." divide lead value from ".$r.$j." value<br>");
             }
+			//echo "<br>";
+					for($x=0; $x<$rowCount; $x++){
+		for($y=0; $y<$columnCount; $y++){
+		//	echo $matrix[$x][$y]." ";
+		}
+	//	echo "<br>";
+	}
+//	echo "<br>";
         }
         for ($i = 0; $i < $rowCount; $i++) {
             if ($i != $r) {
                 $lv = $matrix[$i][$lead];
+
+			//	echo ($lv." lead value<br>");
                 for ($j = 0; $j < $columnCount; $j++) {
                     $matrix[$i][$j] -= $lv * $matrix[$r][$j];
+			//	echo ($matrix[$i][$j]." multiply lead value and ".$r.$j." value<br>");
                 }
+		//echo "<br>";
+		for($x=0; $x<$rowCount; $x++){
+		for($y=0; $y<$columnCount; $y++){
+	//		echo $matrix[$x][$y]." ";
+		}
+	//	echo "<br>";
+	}
+//	echo "<br>";
             }
         }
         $lead++;
     }
+//	echo "<br>";
+			for($x=0; $x<$rowCount; $x++){
+		for($y=0; $y<$columnCount; $y++){
+			//echo $matrix[$x][$y]." ";
+		}
+	//	echo "<br>";
+	}
+//	echo "<br>";
     return $matrix;
+
 }
 
 echo "<html>
@@ -106,9 +146,10 @@ for($m=0; $m<$mealQty; $m++){
   $servings[0][$foodQty] = $proteinPerMeal[$m];
   $servings[1][$foodQty] = $carbPerMeal[$m];
   $servings[2][$foodQty] = $fatPerMeal[$m];
-  
+
   $servings = rref($servings);
-  
+
+
  echo "<h2>Meal ".($m+1)."</h2>
 			<h4>Protein: ".$proteinPerMeal[$m]."g, Carbs: ".$carbPerMeal[$m]."g, Fats: ".$fatPerMeal[$m]."g</h4>
 			<table>
@@ -126,7 +167,7 @@ for($m=0; $m<$mealQty; $m++){
 	echo "
 				<tr>
 					<td>".$nameMeasure[0]."</td>
-					<td>".round($servingSize,0,PHP_ROUND_HALF_UP)." ".$measure[1]."</td>
+					<td>".round($servingSize,1,PHP_ROUND_HALF_UP)." ".$measure[1]."</td>
 				</tr>";
 
   }
