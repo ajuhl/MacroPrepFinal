@@ -5,28 +5,31 @@
 
 div{
   border-radius: 25px;
-  border: 2px solid lightblue;
+  border: 2px solid black;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
   width: 500px;
   padding: 20px;
+  
 }
 
 #p01 {
   font-weight: bold;
   text-decoration: underline;
   font-size: 30px;
-  text-shadow: 0 2px 3px black;
+  text-shadow: 0 2px 3px rgb(179,179,179);
 }
 
 #rcorners1 {
     border-radius: 25px;
-    border: 2px solid rgb(220, 20, 60);
+    border: 2px solid rgb(230, 230, 0);
+    background-color: rgb(230, 230,0);
     padding: 20px;
     width: 450px;
     height: 50px;
     font-size: 40px;
     text-align: center;
-    color: blue;
+    color: black;
+    text-shadow: 0 1px 1px black;
     box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
@@ -38,7 +41,7 @@ div{
 
   font-size: 20px;
 
-  color: blue;
+
   box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
 }
 
@@ -47,7 +50,7 @@ input[type=number] {
   height: 21px;
   -webkit-transition: width 0.4s, height 0.4s;
   transition: width 0.4s, height 0.4s;
-  border: 2px solid lightblue;
+  border: 2px solid rgb(230,230,0);
   text-align: center;
   margin: 5px;
 }
@@ -58,11 +61,11 @@ input[type=number]:hover {
 }
 
 input[type=submit] {
-  background-color: white;
+  background-color: rgb(230,230,0);
   border-radius: 2px;
   -webkit-transition-duration: 0.4s;
   transition-duration: all 0.4s;
-  border: 2px solid #4CAF50;
+  border: 2px solid rgb(230,230,0);
   padding: 16px 32px;
   text-align: center;
   cursor: pointer;
@@ -70,11 +73,14 @@ input[type=submit] {
 }
 
 input[type=submit]:hover{
-  background-color: #4CAF50;
-  color: white;
-  border: 2px solid #4CAF50;
+  border-radius: 2px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
+
+input[type=submit]:active{
+  transform: translateY(4px);
+}
+
 </style>
 </head>
 <body>
