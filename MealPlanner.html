@@ -1,25 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
 
+div{
+  border-radius: 25px;
+  border: 2px solid lightblue;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  width: 500px;
+  padding: 20px;
+}
+
+#p01 {
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 30px;
+  text-shadow: 0 2px 3px black;
+}
+
+#rcorners1 {
+    border-radius: 25px;
+    border: 2px solid rgb(220, 20, 60);
+    padding: 20px;
+    width: 450px;
+    height: 50px;
+    font-size: 40px;
+    text-align: center;
+    color: blue;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}
+
+#rcorners2 {
+  border-radius: 25px;
+  border: 2px solid black;
+  padding: 10px;
+  width: 300px;
+
+  font-size: 20px;
+
+  color: blue;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}
+
+input[type=number] {
+  width: 69px;
+  height: 21px;
+  -webkit-transition: width 0.4s, height 0.4s;
+  transition: width 0.4s, height 0.4s;
+  border: 2px solid lightblue;
+  text-align: center;
+  margin: 5px;
+}
+
+input[type=number]:hover {
+  width: 100px;
+  height: 25px;
+}
+
+input[type=submit] {
+  background-color: white;
+  border-radius: 2px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: all 0.4s;
+  border: 2px solid #4CAF50;
+  padding: 16px 32px;
+  text-align: center;
+  cursor: pointer;
+  padding: 20px;
+}
+
+input[type=submit]:hover{
+  background-color: #4CAF50;
+  color: white;
+  border: 2px solid #4CAF50;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+</style>
 </head>
 <body>
-
-<h1>MacroPrep </h1>
+<div>
+<p id="rcorners1">MacroPrep </p>
+<div id="rcorners2"><p id="p01">Total Daily Macros</p>
 <form action="MealBuilder.php" method="post">
-<h2>Daily Macros</h2>
-<input type="number" name="protein" value="0" min="0" max= "500"> Protein<br>
-<input type="number" name="carb" value="0" min="0" max= "500"> Carb<br>
-<input type="number" name="fat" value="0" min="0" max= "500"> Fat<br><br>
+
+<input type="number" name="protein" value="0" min="0" max= "500"> Protein (g)<br>
+<input type="number" name="carb" value="0" min="0" max= "500"> Carbs (g)<br>
+<input type="number" name="fat" value="0" min="0" max= "500"> Fats (g)<br><br>
 
 
 
-<input type="number" name="mealQty" value="1" min="1" max= "4"> Number of meals<br>
-
- <input type="submit" value="Submit">
+<input type="number" name="mealQty" value="1" min="1" max= "4"> Number of Meals<br><br></div><br>
+<input type="submit" class="submit"  value="Select Foods">
 
 </form>
-
+</div>
 
 </body>
 </html>
