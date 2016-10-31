@@ -13,6 +13,45 @@
 		select,.select2{
 			width:500px !important;
 		}
+		div {
+			border-radius: 15px 50px 30px;
+			padding: 20px;
+			border: 2px solid lightblue;
+			width: 700px;
+		}
+
+		h3 {
+			width: 300px;
+			background-color: rgb(0, 102, 255);
+			color: white;
+			text-shadow: 2px 2px 5px red;
+		}
+
+		h4{
+			margin-bottom: 1px;
+		}
+
+		input[type=submit]{
+			color: white;
+
+			border-radius: 4px;
+			font-size: 20px;
+			background-color: #4CAF50;\
+			text-align: center;
+			cursor: pointer;
+			padding: 16px 32px;
+			-webkit-transition-duration: 0.4s;
+		  transition-duration: all 0.4s;
+		}
+
+		input[type=submit]:hover{
+		  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+		}
+
+		input[type=submit]:active{
+			transform: translateY(4px);
+		}
+
 	</style>
 </head>
 
@@ -61,9 +100,9 @@ global $conn;
 
 for($m = 0; $m < $mealQty; $m++)
 {
-  echo ("<h2>Meal ".($m+1)." Macro's</h2>");
-  echo "<h4>Protein: ".$proteinPerMeal[$m]."g, Carbs: ".$carbPerMeal[$m]."g, Fats: ".$fatPerMeal[$m]."g</h4>";
-  echo ("Protein Selection<br>");
+  echo ("<div><h1>Meal ".($m+1)." Macro's</h1>");
+  echo "<h3>Protein: ".$proteinPerMeal[$m]."g, Carbs: ".$carbPerMeal[$m]."g, Fats: ".$fatPerMeal[$m]."g</h3>";
+  echo ("<h4>Protein Selection</h4>");
   echo '<select class="js-example-basic-single" name="m'.$m.'f0">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'p\'');
   while($row = $result->fetch_assoc()){
@@ -71,7 +110,7 @@ for($m = 0; $m < $mealQty; $m++)
   }
   echo '</select><br>';
 
-  echo ("Carb Selection<br>");
+  echo ("<h4>Carb Selection</h4>");
   echo '<select class="js-example-basic-single" name="m'.$m.'f1">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'c\'');
   while($row = $result->fetch_assoc()){
@@ -79,13 +118,13 @@ for($m = 0; $m < $mealQty; $m++)
   }
   echo '</select><br>';
 
-  echo ("Fat Selection<br>");
+  echo ("<h4>Fat Selection</h4>");
   echo '<select class="js-example-basic-single" name="m'.$m.'f2">';
   $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'f\'');
   while($row = $result->fetch_assoc()){
      echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
   }
-  echo '</select><br><br>';
+  echo '</select></div><br><br>';
 
 }
 
