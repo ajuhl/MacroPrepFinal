@@ -5,7 +5,8 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 	  $(".js-example-basic-single").select2({
-			placeholder: 'Select a food'
+			placeholder: "Select a food",
+			allowClear: true
 			});
 	});
 	</script>
