@@ -136,7 +136,7 @@ for($m=0; $m<$mealQty; $m++){
 	// $f = food increment
   for($f=0; $f<$foodQty; $f++){
     $foodID = $_POST['m'.$m.'f'.$f];
-    $presult = $conn->query('SELECT `protein`,`carbs`,`fat` FROM `foods` WHERE `id`='.$foodID);
+    $presult = $conn->query('SELECT `protein`,`carb`,`fat` FROM `foods` WHERE `id`='.$foodID);
   	$row = $presult->fetch_row();
 	//	$n = nutrient increment
     for($n=0; $n<3; $n++){

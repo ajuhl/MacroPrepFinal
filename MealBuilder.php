@@ -100,11 +100,13 @@ global $conn;
 
 for($m = 0; $m < $mealQty; $m++)
 {
+  $macroTotalPerMeal = $proteinPerMeal[$m]+$carbPerMeal[$m]+$fatPerMeal[$m];
   echo ("<div><h1>Meal ".($m+1)." Macro's</h1>");
   echo "<h3>Protein: ".$proteinPerMeal[$m]."g, Carbs: ".$carbPerMeal[$m]."g, Fats: ".$fatPerMeal[$m]."g</h3>";
   echo ("<h4>Protein Selection</h4>");
   echo '<select class="js-example-basic-single" name="m'.$m.'f0">';
-  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'p\'');
+  $proteinRatioPerMeal = $proteinPerMeal[$m] / $macroTotalPerMeal;
+  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'p\' AND `proteinRatio`>'.$proteinRatioPerMeal);
   while($row = $result->fetch_assoc()){
      echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
   }
@@ -112,7 +114,8 @@ for($m = 0; $m < $mealQty; $m++)
 
   echo ("<h4>Carb Selection</h4>");
   echo '<select class="js-example-basic-single" name="m'.$m.'f1">';
-  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'c\'');
+  $carbRatioPerMeal = $carbPerMeal[$m] / $macroTotalPerMeal;
+  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'c\' AND `carbRatio`>'.$carbRatioPerMeal);
   while($row = $result->fetch_assoc()){
      echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
   }
@@ -120,7 +123,8 @@ for($m = 0; $m < $mealQty; $m++)
 
   echo ("<h4>Fat Selection</h4>");
   echo '<select class="js-example-basic-single" name="m'.$m.'f2">';
-  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'f\'');
+  $fatRatioPerMeal = $fatPerMeal[$m] / $macroTotalPerMeal;
+  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'f\' AND `fatRatio`>'.$fatRatioPerMeal);
   while($row = $result->fetch_assoc()){
      echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
   }
