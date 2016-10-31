@@ -155,7 +155,7 @@ for($m=0; $m<$mealQty; $m++){
 			<table>
 				<tr>
 					<th>Food</th>
-					<th>Serving Size (g)</th>
+					<th>Serving Size</th>
 				</tr>";
  for($f=0; $f<$foodQty; $f++){
     $foodID = $_POST['m'.$m.'f'.$f];
