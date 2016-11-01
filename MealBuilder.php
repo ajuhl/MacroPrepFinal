@@ -1,3 +1,9 @@
+<!--
+@file MealBuilder.php
+@date 11/1/2016
+@brief Lets the user choose food for each meal
+-->
+
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<link href="select2.min.css" rel="stylesheet" />
@@ -16,15 +22,25 @@
 		div {
 			border-radius: 15px 50px 30px;
 			padding: 20px;
-			border: 2px solid lightblue;
+			border: 2px solid black;
 			width: 700px;
+			box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+			background: linear-gradient(135deg, rgba(252,227,0,1) 0%, rgba(255,242,173,1) 52%, rgba(252,227,0,1) 100%);
+
 		}
 
-		h3 {
-			width: 300px;
-			background-color: rgb(0, 102, 255);
-			color: white;
-			text-shadow: 2px 2px 5px red;
+		h1 {
+			border-radius: 25px;
+	    border: 2px solid rgb(230, 230, 0);
+	    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(25,25,25,1) 10%,rgba(25,25,25,1) 70%,rgba(51,51,51,1) 85%,rgba(102,102,102,1) 100%);
+	    padding: 20px;
+	    width: 450px;
+	    height: 50px;
+	    font-size: 40px;
+	    text-align: center;
+	    color: rgba(252,227,0,1);
+
+	    border: 2px solid black;
 		}
 
 		h4{
@@ -32,11 +48,11 @@
 		}
 
 		input[type=submit]{
-			color: white;
+			color: rgba(252,227,0,1);
 
-			border-radius: 4px;
+			border-radius: 6px;
 			font-size: 20px;
-			background-color: #4CAF50;\
+			background-color: black;
 			text-align: center;
 			cursor: pointer;
 			padding: 16px 32px;
@@ -46,6 +62,7 @@
 
 		input[type=submit]:hover{
 		  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
 		}
 
 		input[type=submit]:active{

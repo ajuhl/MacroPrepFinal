@@ -1,16 +1,21 @@
+<!--
+@file MealPlanner.php
+@date 11/1/2016
+@brief Prompts user to input total desired macros
+-->
 <!DOCTYPE html>
 <html>
 <head>
 <style>
 
-div{
+div.gradient{
   border-radius: 25px;
   border: 2px solid black;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
   width: 500px;
   padding: 20px;
   margin: auto;
-  background: linear-gradient(to right, rgba(192,192,192,1), rgba(230,230,0,1));
+  background: linear-gradient(135deg, rgba(252,227,0,1) 0%, rgba(255,242,173,1) 52%, rgba(252,227,0,1) 100%);
 }
 
 #p01 {
@@ -18,33 +23,33 @@ div{
   text-decoration: underline;
   font-size: 30px;
   text-shadow: 0 2px 3px rgb(179,179,179);
-  
+
 }
 
 #rcorners1 {
     border-radius: 25px;
     border: 2px solid rgb(230, 230, 0);
-    background-color: rgb(230, 230,0);
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(25,25,25,1) 10%,rgba(25,25,25,1) 70%,rgba(51,51,51,1) 85%,rgba(102,102,102,1) 100%);
     padding: 20px;
     width: 450px;
     height: 50px;
     font-size: 40px;
     text-align: center;
-    color: black;
+    color: rgba(252,227,0,1);
     text-shadow: 0 1px 1px black;
     border: 2px solid black;
 }
 
-#rcorners2 {
+div.rcorners2 {
+  background: linear-gradient(135deg, rgba(252,227,0,1) 0%,rgba(255,242,173,1) 52%, rgba(252,227,0,1) 100%);
   border-radius: 25px;
   border: 2px solid black;
   padding: 10px;
   width: 300px;
 
   font-size: 20px;
-
-
   box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  margin: auto;
 }
 
 input[type=number] {
@@ -52,7 +57,7 @@ input[type=number] {
   height: 21px;
   -webkit-transition: width 0.4s, height 0.4s;
   transition: width 0.4s, height 0.4s;
-  border: 2px solid rgb(230,230,0);
+  border: 2px solid black;
   text-align: center;
   margin: 5px;
 }
@@ -63,8 +68,9 @@ input[type=number]:hover {
 }
 
 input[type=submit] {
-  background-color: rgb(230,230,0);
-  border-radius: 2px;
+  background-color: black;
+  color: rgba(252,227,0,1);
+  border-radius: 4px;
   -webkit-transition-duration: 0.4s;
   transition-duration: all 0.4s;
   border: 1px solid black;
@@ -74,10 +80,6 @@ input[type=submit] {
   padding: 20px;
 }
 
-input[type=submit]:hover{
-  border-radius: 2px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
 
 input[type=submit]:active{
   transform: translateY(4px);
@@ -86,18 +88,16 @@ input[type=submit]:active{
 </style>
 </head>
 <body>
-<div>
+<div class="gradient">
 <p id="rcorners1">MacroPrep </p>
-<div id="rcorners2"><p id="p01">Total Daily Macros</p>
+<div class="rcorners2"><p id="p01">Total Daily Macros</p>
 <form action="MealBuilder.php" method="post">
 
 <input type="number" name="protein" value="0" min="0" max= "500"> Protein (g)<br>
 <input type="number" name="carb" value="0" min="0" max= "500"> Carbs (g)<br>
 <input type="number" name="fat" value="0" min="0" max= "500"> Fats (g)<br><br>
-
-
-
 <input type="number" name="mealQty" value="1" min="1" max= "4"> Number of Meals<br><br></div><br>
+
 <input type="submit" class="submit"  value="Select Foods">
 
 </form>

@@ -1,3 +1,69 @@
+<!--
+@file MealPlan.php
+@date 11/1/2016
+@brief Meal by meal plan constructed based on user inputs
+-->
+
+<head>
+  <style>
+    table, th, tr, td {
+      margin: auto;
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, tr, td {
+      padding: 5px;
+    }
+    th {
+      text-align: left;
+      color: rgba(252,227,0,1);
+      background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(25,25,25,1) 10%,rgba(25,25,25,1) 70%,rgba(51,51,51,1) 85%,rgba(102,102,102,1) 100%);
+    }
+    td {
+      font-weight: bold;
+    }
+    tr:hover{
+      background: rgba(204,184,0,1);
+    }
+    div {
+			border-radius: 50px 15px 30px 50px;
+			padding: 20px;
+			border: 2px solid black;
+			width: 550px;
+			box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+			background: linear-gradient(135deg, rgba(252,227,0,1) 0%, rgba(255,242,173,1) 52%, rgba(252,227,0,1) 100%);
+    }
+    h2 {
+    margin: auto;
+    margin-bottom: 20px;
+    border-radius: 25px;
+    border: 2px solid rgb(230, 230, 0);
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(25,25,25,1) 10%,rgba(25,25,25,1) 70%,rgba(51,51,51,1) 85%,rgba(102,102,102,1) 100%);
+    padding: 20px;
+    width: 450px;
+    height: 50px;
+    font-size: 40px;
+    text-align: center;
+    color: rgba(252,227,0,1);
+    border: 2px solid black;
+  }
+    h4 {
+      margin: auto;
+      margin-bottom: 20px;
+      border-radius: 25px;
+	    border: 2px solid rgb(230, 230, 0);
+	    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(25,25,25,1) 10%,rgba(25,25,25,1) 70%,rgba(51,51,51,1) 85%,rgba(102,102,102,1) 100%);
+	    padding: 20px;
+	    width: 450px;
+	    height: 20px;
+	    font-size: 20px;
+	    text-align: center;
+	    color: rgba(252,227,0,1);
+	    border: 2px solid black;
+    }
+  </style>
+  </head>
+<body>
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -114,22 +180,7 @@ function rref($matrix)
 
 }
 
-echo "<html>
-			<head>
-				<style>
-					table, th, tr, td {
-						border: 1px solid black;
-						border-collapse: collapse;
-					}
-					th, tr, td {
-						padding: 5px;
-					}
-					th {
-						text-align: left;
-					}
-				</style>
-				</head>
-				<body>";
+
 //	$m = meal increment
 for($m=0; $m<$mealQty; $m++){
 
@@ -150,7 +201,7 @@ for($m=0; $m<$mealQty; $m++){
   $servings = rref($servings);
 
 
- echo "<h2>Meal ".($m+1)."</h2>
+ echo "<div><h2>Meal ".($m+1)."</h2>
 			<h4>Protein: ".$proteinPerMeal[$m]."g, Carbs: ".$carbPerMeal[$m]."g, Fats: ".$fatPerMeal[$m]."g</h4>
 			<table>
 				<tr>
@@ -171,11 +222,10 @@ for($m=0; $m<$mealQty; $m++){
 				</tr>";
 
   }
-  echo 	"</table><br>";
+  echo 	"</table></div><br>";
 }
-
-echo "</body>
-	</html>";
 
 echo PHP_EOL;
 ?>
+</body>
+</html>
