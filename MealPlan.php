@@ -50,16 +50,12 @@
     h4 {
       margin: auto;
       margin-bottom: 20px;
-      border-radius: 25px;
-	    border: 2px solid rgb(230, 230, 0);
-	    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(25,25,25,1) 10%,rgba(25,25,25,1) 70%,rgba(51,51,51,1) 85%,rgba(102,102,102,1) 100%);
 	    padding: 20px;
 	    width: 450px;
 	    height: 20px;
 	    font-size: 20px;
 	    text-align: center;
-	    color: rgba(252,227,0,1);
-	    border: 2px solid black;
+	    color: black;
     }
   </style>
   </head>
