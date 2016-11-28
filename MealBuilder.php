@@ -4,81 +4,26 @@
 @brief Lets the user choose food for each meal
 -->
 
+<?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+require_once('./inc/serverConnect.php');
+?>
+
+<html>
+
 <head>
+	<link href="css/style.css" rel="stylesheet"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<link href="select2.min.css" rel="stylesheet" />
-	<script src="select2.min.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function() {
-	  $(".js-example-basic-single").select2({
-			placeholder: 'Select a food'
-			});
-	});
-	</script>
-	<style>
-		select,.select2{
-			width:500px !important;
-		}
-		div {
-			border-radius: 15px 50px 30px;
-			padding: 20px;
-			border: 2px solid black;
-			width: 700px;
-			box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
-			background: linear-gradient(135deg, rgba(252,227,0,1) 0%, rgba(255,242,173,1) 52%, rgba(252,227,0,1) 100%);
-
-		}
-
-		h1 {
-			border-radius: 25px;
-	    border: 2px solid rgb(230, 230, 0);
-	    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(25,25,25,1) 10%,rgba(25,25,25,1) 70%,rgba(51,51,51,1) 85%,rgba(102,102,102,1) 100%);
-	    padding: 20px;
-	    width: 450px;
-	    height: 50px;
-	    font-size: 40px;
-	    text-align: center;
-	    color: rgba(252,227,0,1);
-
-	    border: 2px solid black;
-		}
-
-		h4{
-			margin-bottom: 1px;
-		}
-
-		input[type=submit]{
-			color: rgba(252,227,0,1);
-
-			border-radius: 6px;
-			font-size: 20px;
-			background-color: black;
-			text-align: center;
-			cursor: pointer;
-			padding: 16px 32px;
-			-webkit-transition-duration: 0.4s;
-		  transition-duration: all 0.4s;
-		}
-
-		input[type=submit]:hover{
-		  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-
-		}
-
-		input[type=submit]:active{
-			transform: translateY(4px);
-		}
-
-	</style>
+	<link href="css/select2.min.css" rel="stylesheet" />
+	<script src="js/select2.min.js"></script>
+	<script src="js/MealBuilder.js"></script>
 </head>
 
 <body>
 
-<form action="MealPlan.php" method="POST">
-
+<form action="MealPlan.php" action="POST">
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
 $totalProtein = $_POST['protein'];
 $totalCarb = $_POST['carb'];
 $totalFat = $_POST['fat'];
@@ -88,7 +33,6 @@ echo '<input type="hidden" name="protein" value="'.$totalProtein.'">';
 echo '<input type="hidden" name="carb" value="'.$totalCarb.'">';
 echo '<input type="hidden" name="fat" value="'.$totalFat.'">';
 echo '<input type="hidden" name="meals" value="'.$mealQty.'">';
-
 
 function nutrientDivision($nutrientTotal, $mealQty){
   $individual = floor($nutrientTotal/$mealQty);
@@ -105,54 +49,50 @@ function nutrientDivision($nutrientTotal, $mealQty){
   return $nutrientDivided;
 }
 
-
 $proteinPerMeal = nutrientDivision($totalProtein,$mealQty);
 $carbPerMeal = nutrientDivision($totalCarb,$mealQty);
 $fatPerMeal = nutrientDivision($totalFat,$mealQty);
-
-require_once('serverConnect.php');
-
-
-global $conn;
-
-for($m = 0; $m < $mealQty; $m++)
-{
-  $macroTotalPerMeal = $proteinPerMeal[$m]+$carbPerMeal[$m]+$fatPerMeal[$m];
-  echo ("<div><h1>Meal ".($m+1)." Macro's</h1>");
-  echo "<h3>Protein: ".$proteinPerMeal[$m]."g, Carbs: ".$carbPerMeal[$m]."g, Fats: ".$fatPerMeal[$m]."g</h3>";
-  echo ("<h4>Protein Selection</h4>");
-  echo '<select class="js-example-basic-single" name="m'.$m.'f0">';
-  $proteinRatioPerMeal = $proteinPerMeal[$m] / $macroTotalPerMeal;
-  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'p\' AND `proteinRatio`>'.$proteinRatioPerMeal);
-  while($row = $result->fetch_assoc()){
-     echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
-  }
-  echo '</select><br>';
-
-  echo ("<h4>Carb Selection</h4>");
-  echo '<select class="js-example-basic-single" name="m'.$m.'f1">';
-  $carbRatioPerMeal = $carbPerMeal[$m] / $macroTotalPerMeal;
-  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'c\' AND `carbRatio`>'.$carbRatioPerMeal);
-  while($row = $result->fetch_assoc()){
-     echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
-  }
-  echo '</select><br>';
-
-  echo ("<h4>Fat Selection</h4>");
-  echo '<select class="js-example-basic-single" name="m'.$m.'f2">';
-  $fatRatioPerMeal = $fatPerMeal[$m] / $macroTotalPerMeal;
-  $result = $conn->query('SELECT `name`,`id` FROM `foods` WHERE `polarization`=\'f\' AND `fatRatio`>'.$fatRatioPerMeal);
-  while($row = $result->fetch_assoc()){
-     echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
-  }
-  echo '</select></div><br><br>';
-
-}
-
+for($m=1;$m<=$mealQty;$m++){
 ?>
-
-<input type="submit" value="Submit"></input>
-
+	<div class="meal">
+		<h1>Meal <?php echo $m; ?></h1>
+		<table>
+		<tr>
+		 <td><h2>Protein:</h2></td>
+		 <td><input type="range" class="macroSlider" max="<?php echo $totalProtein; ?>" value="<?php echo $proteinPerMeal[$m-1]; ?>"/></td>
+		 <td><div class="macroDisplay"></div></td>
+		</tr>
+		<tr>
+		 <td><h2>Carbs:</h2></td>
+		 <td><input type="range" class="macroSlider" max="<?php echo $totalCarb; ?>" value="<?php echo $carbPerMeal[$m-1]; ?>"/></td>
+		 <td><div class="macroDisplay"></div></td>
+		</tr>
+		<tr>
+		 <td><h2>Fat:</h2></td>
+		 <td><input type="range" class="macroSlider" max="<?php echo $totalFat; ?>" value="<?php echo $fatPerMeal[$m-1]; ?>"/></td>
+		 <td><div class="macroDisplay"></div></td>
+		</tr>
+		</table>
+		<div class="foodWrapper">
+			<div class="foodContainer">
+				
+			</div>
+			<input class="addFood" type="button" value="+"/>
+		</div>
+	</div>
+<?php
+}
+?>
+	<div class="goals">
+		<h1>Protein</h1>
+			<div id="proteinGoal" class="goal"></div><div class="goal">Daily Goal: <?php echo $totalProtein; ?>g</div>
+		<h1>Carbs</h1>
+			<div id="carbGoal" class="goal"></div><div class="goal">Daily Goal: <?php echo $totalCarb; ?>g</div>
+		<h1>Fat</h1>
+			<div id="fatGoal" class="goal"></div><div class="goal">Daily Goal: <?php echo $totalFat; ?>g</div>
+	</div>
 </form>
+
+</body>
 
 </html>

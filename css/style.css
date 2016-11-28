@@ -1,0 +1,68 @@
+body{
+	font-family:'Arial';
+	font-size:62.5%;
+}
+
+.goals{
+	display: inline-block;
+	position: fixed;
+	left: 500px;
+	top: 10px;
+	border: 1px solid black;
+	width: 300px;
+	padding: 10px;
+}
+
+.goal{
+	display:inline;
+	font-size:1.6em;
+}
+
+.meal{
+	border:1px solid black;
+	padding:10px;
+	margin:10px;
+	width: 300px;
+}
+
+.meal h2{
+	margin:0;
+	font-size:1.1em;
+}
+
+.macroSlider{
+	width:150px;
+}
+
+.foodWrapper{
+	border:1px solid gray;
+	margin:10px auto 0px auto;
+	width:100%;
+	min-height:36px;
+	border-radius:4px;
+}
+
+.foodContainer{
+	display:inline;
+}
+
+.select2{
+	margin:3px !important;
+	width:85% !important;
+}
+
+.addFood{
+	border:1px solid gray;
+	background-color:white;
+	border-radius:4px;
+	height:28px;
+	width:28px;
+	position:relative;
+	top:+3px;
+	float:right;
+	right:5px;
+	color:#070;
+	font-weight:bold;
+	font-size:26px;
+	line-height:0px;
+}
