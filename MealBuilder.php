@@ -22,7 +22,22 @@ require_once('./inc/serverConnect.php');
 
 <body>
 
-<form action="MealPlan.php" action="POST">
+<div class="foodSelectTemplate">
+			<select class="foodSelect" name="newFood">
+				<option></option>
+<?php
+				error_reporting(E_ALL);
+				ini_set("display_errors", 1);
+				require_once('./inc/serverConnect.php');
+				$result = $conn->query('SELECT `name`,`id` FROM `foods`');
+				while($row = $result->fetch_assoc()){
+					echo '				<option value="'.$row['id'].'">'.$row['name'].'</option>'.PHP_EOL;
+				}
+				?>
+			</select>
+</div>
+
+<form action="MealBuilder2.php" method="POST">
 <?php
 $totalProtein = $_POST['protein'];
 $totalCarb = $_POST['carb'];
@@ -32,7 +47,7 @@ $mealQty = $_POST['mealQty'];
 echo '<input type="hidden" name="protein" value="'.$totalProtein.'">';
 echo '<input type="hidden" name="carb" value="'.$totalCarb.'">';
 echo '<input type="hidden" name="fat" value="'.$totalFat.'">';
-echo '<input type="hidden" name="meals" value="'.$mealQty.'">';
+echo '<input type="hidden" name="mealQty" value="'.$mealQty.'">';
 
 function nutrientDivision($nutrientTotal, $mealQty){
   $individual = floor($nutrientTotal/$mealQty);
@@ -59,17 +74,17 @@ for($m=1;$m<=$mealQty;$m++){
 		<table>
 		<tr>
 		 <td><h2>Protein:</h2></td>
-		 <td><input type="range" class="macroSlider" max="<?php echo $totalProtein; ?>" value="<?php echo $proteinPerMeal[$m-1]; ?>"/></td>
+		 <td><input name="m<?php echo $m; ?>protein" type="range" class="macroSlider" max="<?php echo $totalProtein; ?>" value="<?php echo $proteinPerMeal[$m-1]; ?>"/></td>
 		 <td><div class="macroDisplay"></div></td>
 		</tr>
 		<tr>
 		 <td><h2>Carbs:</h2></td>
-		 <td><input type="range" class="macroSlider" max="<?php echo $totalCarb; ?>" value="<?php echo $carbPerMeal[$m-1]; ?>"/></td>
+		 <td><input name="m<?php echo $m; ?>carb" type="range" class="macroSlider" max="<?php echo $totalCarb; ?>" value="<?php echo $carbPerMeal[$m-1]; ?>"/></td>
 		 <td><div class="macroDisplay"></div></td>
 		</tr>
 		<tr>
 		 <td><h2>Fat:</h2></td>
-		 <td><input type="range" class="macroSlider" max="<?php echo $totalFat; ?>" value="<?php echo $fatPerMeal[$m-1]; ?>"/></td>
+		 <td><input name="m<?php echo $m; ?>fat" type="range" class="macroSlider" max="<?php echo $totalFat; ?>" value="<?php echo $fatPerMeal[$m-1]; ?>"/></td>
 		 <td><div class="macroDisplay"></div></td>
 		</tr>
 		</table>
@@ -83,15 +98,17 @@ for($m=1;$m<=$mealQty;$m++){
 <?php
 }
 ?>
-	<div class="goals">
-		<h1>Protein</h1>
-			<div id="proteinGoal" class="goal"></div><div class="goal">Daily Goal: <?php echo $totalProtein; ?>g</div>
-		<h1>Carbs</h1>
-			<div id="carbGoal" class="goal"></div><div class="goal">Daily Goal: <?php echo $totalCarb; ?>g</div>
-		<h1>Fat</h1>
-			<div id="fatGoal" class="goal"></div><div class="goal">Daily Goal: <?php echo $totalFat; ?>g</div>
-	</div>
+<input type="submit"/>	
 </form>
+
+<div class="goals">
+	<h1>Protein</h1>
+		<div id="proteinGoal" class="goal green">Current Total: <?php echo $totalProtein; ?>g</div><div class="goal">Daily Goal: <?php echo $totalProtein; ?>g</div>
+	<h1>Carbs</h1>
+		<div id="carbGoal" class="goal green">Current Total: <?php echo $totalCarb; ?>g</div><div class="goal">Daily Goal: <?php echo $totalCarb; ?>g</div>
+	<h1>Fat</h1>
+		<div id="fatGoal" class="goal green">Current Total: <?php echo $totalFat; ?>g</div><div class="goal">Daily Goal: <?php echo $totalFat; ?>g</div>
+</div>
 
 </body>
 

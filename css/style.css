@@ -10,12 +10,22 @@ body{
 	top: 10px;
 	border: 1px solid black;
 	width: 300px;
-	padding: 10px;
+	padding: 30px;
 }
 
 .goal{
 	display:inline;
 	font-size:1.6em;
+	padding-right:15px;
+	font-weight:bold;
+}
+
+.orange{
+	color:#d60;
+}
+
+.green{
+	color:green;
 }
 
 .meal{
@@ -34,12 +44,26 @@ body{
 	width:150px;
 }
 
+.servingSlider{
+	width:260px;
+	margin:0px 10px;
+}
+
+.servingContainer{
+	font-size:1.2em;
+	padding:8px;
+}
+
 .foodWrapper{
 	border:1px solid gray;
 	margin:10px auto 0px auto;
 	width:100%;
 	min-height:36px;
 	border-radius:4px;
+}
+
+.foodSelectTemplate{
+	display:none;
 }
 
 .foodContainer{
