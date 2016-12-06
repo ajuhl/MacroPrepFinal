@@ -8,202 +8,240 @@ global $conn;
 require_once 'Math/Matrix.php';
 
 /*
-Initialize:
-Set P = null
-Set R = {1, ..., n}
-Set x to an all-zero vector of dimension n
-Set w = A_t(y − Ax)
-*/
-echo nl2br("INITIALIZE--------------------------------------\n");
-$A = array(
-	array(4.0,4,6,4),
-	array(5.0,5,5,4),
-	array(5.0,5,5,6),
-); //food macros
-$A = new Math_Matrix($A);
-$A_t = $A->cloneMatrix();
-$A_t->transpose(); //Transpose of A
-$size = $A->getSize();
-$m = $size[0]; //rows
-$n = $size[1];//columns
+NNLS based off of pseudocode provided by:
 
-$y = array(
-	array(50.0),
-	array(45.0),
-	array(25.0),
-); //target macros
-$y = new Math_Matrix($y);
-$R_P= [];
-$x_arr = [];
-for($i=0; $i<$n; $i++)
-{
-	$R_P[$i] = 0;
-	$x_arr[$i] = array(0);
-}
+Lawson, Charles L.; Hanson, Richard J. (1995). Solving Least Squares Problems. SIAM.
 
-$x = new Math_Matrix($x_arr);
-echo nl2br("A:\n".$A -> toString()."rows: ".$m."\n columns: ".$n."\n\nA_t:\n".$A_t->toString()."\n y:\n".$y->toString()."\n x:\n".$x->toString());
-$t = (1/10000000000);
-$w = 0;
-echo nl2br("\n w:");
-set_w();
-$AP = new Math_Matrix($data=null);
-$AP_t = new Math_Matrix($data=null);
-$s = new Math_Matrix($x_arr);
-$sP = new Math_Matrix($data=null);
-echo nl2br("\n s:\n".$s->toString());
-
-
-
-
-nnls();
-/*
 Inputs:
-a real-valued matrix A of dimension m × n
-a real-valued vector y of dimension m
-a real value t, the tolerance for the stopping criterion
+	a real-valued matrix A of dimension m × n
+	a real-valued vector y of dimension m
+	a real value t, the tolerance for the stopping criterion
+Initialize:
+	Set P = ∅
+	Set R = {1, ..., n}
+	Set x to an all-zero vector of dimension n
+	Set w = Aᵀ(y − Ax)
+Main loop: while R ≠ ∅ and max(w) > t,
+	Let j in R be the index of max(w) in w
+	Add j to P
+	Remove j from R
+	Let AP be A restricted to the variables included in P
+	Let s be vector of same length as x. Let sP denote the sub-vector with indexes from P, and let sR denote the sub-vector with indexes from R.
+	Set sP = ((AP)ᵀ AP)−1 (AP)ᵀy
+	Set sR to zero
+	While min(sP) ≤ 0:
+		Let α = min[xi / (xi - si)] for i in P where si ≤ 0
+		Set x to x + α(s - x)
+		Move to R all indices j in P such that xj = 0
+		Set sP = ((AP)ᵀ AP)−1 (AP)ᵀy
+		Set sR to zero
+	Set x to s
+	Set w to Aᵀ(y − Ax)
 */
-function nnls(){
-	global $t, $w, $n, $R_P, $AP, $s, $sP, $x;
-	$loop = 0;
-	while($loop != $n && $w->getMax() > $t)
-	{
-		echo nl2br("\nLOOP---------------------------------------------------------\n");
-		$j = $w->getMaxIndex();
-		$j = $j[0];
-		echo nl2br("Max Index of w: ".$j);
-		$R_P[$j] = 1;
-		echo nl2br("\nR_P:\n");
-		echo implode(", ", $R_P);
-		set_s();
-		echo nl2br($sP->getMin()."\n Inner Loop if vlaue above <= zero\n");
-		while($sP->getMin() <= 0)
-		{
-			echo nl2br("\nINNER LOOP--------------------------------------------------\n");
-			$min = 1;
-			echo nl2br("\nx:\n".$x->toString()."s:\n".$s->toString());
-			for($i=0; $i<$n; $i++)
-			{
-				if($R_P[$i] == 1){
-					$b = $s->getElement($i, 0);
 
-					if($b <= 0)
-					{
-						$c = $x->getElement($i, 0);
-						$d = $c/($c-$b);
-						echo "<br>".$d;
-						if($d < $min)
+class nnls{
+	public $A = null;
+	public $y; 								//given constraint matrix
+								//given target values
+
+	private $rowSize;
+								//row size of matrix A
+	private $columnSize;				//column size of matrix A
+	private	$R_P;							//tracker array
+	private $zeroArray;					//Array of size columnSize filled with zero's
+	private	$x;								//solution vector
+	private $t;	//tolerance
+	private $w;
+	private $s;
+	private $A_t;							//transpose of A
+	private	$AP;								//Matrix composed of column(s) of A, who's index(s) in R_P = 1;
+	private $AP_t;							// transpose of AP.
+	private $sP;
+
+
+
+
+	public function __construct($array, $vector){
+		$this->A = new Math_Matrix($array);
+		$size = $this->A->getSize();
+		$this->rowSize = $size[0];
+		$this->columnSize = $size[1];
+		$this->A_t = $this->A->cloneMatrix();
+		$this->A_t->transpose();
+		$this->y = new Math_Matrix($vector);
+		$this->R_P = [];
+		$this->zeroArray = [];
+		for($i=0; $i<$this->columnSize; $i++)
+		{
+			$this->R_P[$i] = 0;
+			$this->zeroArray[$i] = array(0);
+		}
+		$this->x = new Math_Matrix($this->zeroArray); //solution vector
+		$this->set_w();
+		$this->AP = new Math_Matrix($data=null);
+		$this->AP_t = new Math_Matrix($data=null);
+		$this->s = new Math_Matrix($this->zeroArray);
+		$this->sP = new Math_Matrix($data=null);
+		$this->t = (1/10000000000);
+
+		$this->run();
+		
+	}
+
+	private function run(){
+		$R_PisFull = 0;
+		while($R_PisFull != $this->columnSize && $this->w->getMax() > $this->t)
+		{
+			$maxIndex = $this->w->getMaxIndex();
+			$maxIndex = $maxIndex[0];
+			$this->R_P[$maxIndex] = 1;
+			$this->set_s();
+
+			while($this->sP->getMin() <= 0)
+			{
+				$alpha = 1;
+				for($i=0; $i<$this->columnSize; $i++)
+				{
+					if($this->R_P[$i] == 1){
+						$sValue = $this->s->getElement($i, 0);
+
+						if($sValue < 0)
 						{
-							$min = $d;
+							$xValue = $this->x->getElement($i, 0);
+							$min = $xValue/($xValue-$sValue);
+							if($min < $alpha)
+							{
+								$alpha = $min;
+							}
 						}
 					}
-				}
 
-			}
-			$temp = $s->cloneMatrix();
-			$temp->sub($x);
-			$temp->scale($min);
-			$x->add($temp);
-			for($i=0; $i<$n; $i++)
-			{
-				$c = $x->getElement($i, 0);
-				if($c == 0)
+				}
+				$sClone = $this->s->cloneMatrix();
+				$sClone->sub($this->x);
+				$sClone->scale($alpha);
+				$this->x->add($sClone);
+				for($i=0; $i<$this->columnSize; $i++)
 				{
-					$R_P[$i] = 0;
+					$xValue = $this->x->getElement($i, 0);
+					if($xValue == 0)
+					{
+						$this->R_P[$i] = 0;
+					}
 				}
+				$this->set_s();
 			}
 
-			set_s();
-			echo nl2br("\nR_P:\n");
-			echo implode(", ", $R_P);
-
-		}
-		$x = $s->cloneMatrix();
-		echo nl2br("\nx: \n".$x->toString());
-		set_w();
-		$loop = array_sum($R_P);
-		echo "w max: ".$w->getMax();
-	}
-	echo nl2br("\nx: \n".$x->toString());
-
-}
-
-function set_w()
-{
-	global $A, $w, $x, $y, $A_t;
-	echo nl2br("\nSet w to A_t(y − Ax)\n\n");
-	$w = $A->cloneMatrix();
-	echo nl2br("Step1: Ax\nA:\n".$w->toString()." multiply \nx:\n".$x->toString()." Ax equals:\n");
-	$w->multiply($x);
-	echo nl2br($w->toString());
-	echo nl2br("\nStep 2: y - Ax\ny:\n".$y->toString()."minus\nAx:\n".$w->toString()."y - Ax equals:\n");
-	$temp = $y->cloneMatrix();
-	$temp->sub($w);
-	echo nl2br($temp->toString());
-	$w = $A_t->cloneMatrix();
-	echo nl2br("\nStep 3: A_t(y − Ax)\n A_t:\n".$w->toString()."multiply\n(y − Ax):\n".$y->toString()."A_t(y − Ax) equals: \n");
-	$w->multiply($temp);
-	echo nl2br("w:\n".$w->toString());
-}
-
-function set_AP()
-{
-	global $R_P, $A, $AP, $AP_t, $n;
-	$k = 0;
-	$j = [];
-	for($i=0; $i<$n; $i++)
-	{
-		if($R_P[$i] == 1)
-		{
-			$j[$k] = $A->getCol($i);
-			$k++;
+			$this->x = $this->s->cloneMatrix();
+			$this->set_w();
+			$R_PisFull = array_sum($this->R_P);
 		}
 	}
-	if($j != null)
-	{
-		$AP_t = new Math_Matrix($j);
-		$AP = $AP_t->cloneMatrix();
-		$AP->transpose();
-		echo nl2br("\nAP:\n".$AP->toString()."\nAP_t:\n".$AP_t->toString());
-	}
-	else
-	{
-		$AP = new Math_Matrix($data=null);
-		$AP_t = new Math_Matrix($data=null);
+
+	private function set_w(){
+
+		//	Set w to A_t(y − Ax)
+		$this->w = $this->A->cloneMatrix();
+
+		//multiply:  Ax
+		$this->w->multiply($this->x);
+
+		//subtract: y - Ax
+		$yClone = $this->y->cloneMatrix();
+		$yClone->sub($this->w);
+		$this->w = $this->A_t->cloneMatrix();
+
+		//multiply: A_t(y − Ax)
+		$this->w->multiply($yClone);
 	}
 
-}
+	private function set_AP(){
 
-function set_s()
-{
-	global $AP_t, $AP, $y, $n, $sP, $R_P, $s, $x_arr;
-		set_AP();
-		echo nl2br("\nSet sP = (AP_t AP)^-1 (AP_t)y\n");
-		$sP = $AP_t->cloneMatrix();
-		$sP->multiply($AP);
-		echo nl2br("\nAP_t:\n".$AP_t->toString()."multpily\nAP:\n".$AP->toString()."AP_t AP equals:\n".$sP->toString());
-		$sP->invert();
-		echo nl2br("(AP_t AP)^-1 equals:\n".$sP->toString());
-		$sP->multiply($AP_t);
-		echo nl2br("AP_t AP)^-1 (AP_t) equals:\n".$sP->toString());
-		$sP->multiply($y);
-		echo nl2br("AP_t AP)^-1 (AP_t)y equals:\nsP:\n".$sP->toString());
-		$k=0;
-		$l=0;
-		for($i=0; $i<$n; $i++)
+		//Matrix composed of column(s) of A, who's index(s) in R_P = 1;
+		$arrAP_t = [];
+		$indexArrAP_t = 0;
+		for($i=0; $i<$this->columnSize; $i++)
 		{
-			if($R_P[$i] == 1)
+			if($this->R_P[$i] == 1)
 			{
-				$s->setRow($i, $sP->getRow($k));
-				$k++;
+				$arrAP_t[$indexArrAP_t] = $this->A->getCol($i);
+				$indexArrAP_t++;
+			}
+		}
+		if($arrAP_t != null)
+		{
+			$this->AP_t = new Math_Matrix($arrAP_t);
+			$this->AP = $this->AP_t->cloneMatrix();
+			$this->AP->transpose();
+		}
+		else
+		{
+			$this->AP = new Math_Matrix($data=null);
+			$this->AP_t = new Math_Matrix($data=null);
+		}
+
+	}
+
+	private function set_s(){
+
+		//Set sP = (AP_t AP)^-1 (AP_t)y
+		$this->set_AP();
+		$this->sP = $this->AP_t->cloneMatrix();
+
+		//multiply: AP_t and AP
+		$this->sP->multiply($this->AP);
+
+		//(AP_t AP)^-1
+		$this->sP->invert();
+
+		//multiply: (AP_t AP)^-1 (AP_t)
+		$this->sP->multiply($this->AP_t);
+
+		//multiply: (AP_t AP)^-1 (AP_t)y
+		$this->sP->multiply($this->y);
+
+		// set s
+		$sP_index=0;
+		for($i=0; $i<$this->columnSize; $i++)
+		{
+			if($this->R_P[$i] == 1)
+			{
+				$this->s->setRow($i, $this->sP->getRow($sP_index));
+				$sP_index++;
 			}
 			else
 			{
-				$s->setRow($i, $x_arr[$l]);
-				$l++;
+				$this->s->setRow($i, $this->zeroArray[0]);
 			}
 		}
-		echo nl2br("s:\n".$s->toString());
-}
+	}
 
+	public function print_x(){
+		echo nl2br($this->x->toString());
+	}
+	
+	public function get_x(){
+		return($this->x);
+	}
+	
+	public function set_y($vector){
+		$this->y = new Math_Matrix($vector);
+		$this->R_P = [];
+		$this->zeroArray = [];
+		for($i=0; $i<$this->columnSize; $i++)
+		{
+			$this->R_P[$i] = 0;
+			$this->zeroArray[$i] = array(0);
+		}
+		$this->x = new Math_Matrix($this->zeroArray); //solution vector
+		$this->set_w();
+		$this->AP = new Math_Matrix($data=null);
+		$this->AP_t = new Math_Matrix($data=null);
+		$this->s = new Math_Matrix($this->zeroArray);
+		$this->sP = new Math_Matrix($data=null);
+		$this->run();
+	}
+	
+
+}
 ?>
