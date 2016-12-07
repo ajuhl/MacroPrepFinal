@@ -2,9 +2,6 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-require_once('serverConnect.php');
-global $conn;
-
 require_once 'Math/Matrix.php';
 
 /*

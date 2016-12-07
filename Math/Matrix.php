@@ -20,8 +20,8 @@
 //
 // $Id$
 //
-require_once 'Math/Vector.php';
-require_once 'Math/Exception.php';
+require_once 'Vector.php';
+require_once 'Exception.php';
 
 /**
  * Defines a matrix object.

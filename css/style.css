@@ -6,7 +6,7 @@ body{
 .goals{
 	display: inline-block;
 	position: fixed;
-	left: 500px;
+	left: 400px;
 	top: 10px;
 	border: 1px solid black;
 	width: 300px;
@@ -44,9 +44,28 @@ body{
 	width:150px;
 }
 
+.macroDisplay{
+	margin-left:8px;
+	width:100%;
+}
+
 .servingSlider{
 	width:260px;
 	margin:0px 10px;
+}
+
+.servingDisplay{
+	position:relative;
+	top:-3px;
+	font-size:0.8em;
+	width:265px;
+	text-align:right;
+}
+
+.servingDifference{
+	font-size:0.8em;
+	float:right;
+	color: #e84;
 }
 
 .servingContainer{
