@@ -315,7 +315,6 @@ if(!empty($_POST['calculator_ok']))
 						<input type='hidden' name='carbs' value='<?php echo number_format($carbs);?>'/> 
 						<p>Fat: <?php echo number_format($fat);?>g per day</p>
 						<input type='hidden' name='fat' value='<?php echo number_format($fat);?>'/> 
-						
         </div>
 		<input type="submit" class="submit"  value="Use Calculated Macros">
 		</form
