@@ -5,6 +5,7 @@ $user = $_POST['username'];
 $password = $_POST['password'];
 $query = "SELECT user_id,user_pw FROM Users";
 $result = $conn->query($query);
+setcookie("user", $user, time() + 43200);
 
 echo "<html>
 			<head><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'></head>
