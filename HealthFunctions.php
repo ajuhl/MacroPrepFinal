@@ -184,8 +184,6 @@ if(!empty($_POST['calculator_ok']))
 	foreach($_POST as $key=>$var) $_SESSION["calc_bmr_".$key]=$var;
 
 	$inch=$_POST["feet"]*12+$_POST["inch"];
-	$dailyFat = $_POST["lbs"] * 0.4;
-	$dailyProtein = $_POST["lbs"] * $_POST["activity"];
 
     if($_POST["gender"]=='male')
 	{
@@ -196,12 +194,33 @@ if(!empty($_POST['calculator_ok']))
 		$BMR= 655 + (4.3 * $_POST["lbs"]) + (4.7 * $inch) - (4.7 * $_POST["age"]);
 	}
 
-    /* activity?
-    if($calc_mode)
-    {
-        $extra_energy=$BMR*$_POST["activity"];
-        $energy_needs=round($BMR+$extra_energy);
-    }*/
+        $TDEE=$BMR*$_POST["activity"];
+		$goal = $_POST["goal"];
+		
+	            switch ($goal) {
+                case "lose":
+                    if ($TDEE <= 2000){
+						$TDEE = 0.9 * $TDEE;
+					}
+                    if ($TDEE > 2000){
+						$TDEE = 0.8 * $TDEE;
+					}
+                    $carbs = (0.40 * $TDEE / 4);
+                    $protein = (0.40 * $TDEE / 4);
+                    $fat = (0.20 * $TDEE / 9);
+                    break;
+                case "maintain":
+                    $carbs = (0.44 * $TDEE / 4);
+                    $protein = (0.31 * $TDEE / 4);
+                    $fat = (0.25 * $TDEE / 9);
+                    break;
+                case "gain":
+                    $TDEE += 500;
+                    $carbs = (0.39 * $TDEE / 4);
+                    $protein = (0.36 * $TDEE / 4);
+                    $fat = (0.25 * $TDEE / 9);
+                    break;
+            }
 }
 ?>
 
@@ -238,10 +257,11 @@ if(!empty($_POST['calculator_ok']))
 
 
 	<p><label>Your height:</label>
-					<input id="height"  name="height" type="radio" value="cm" onclick="showHide('cm','feet','CM','labelh');showHide('cm','inch','CM','labelh');" <?php if($_SESSION["calc_bmr_height"]=="cm") echo "checked"; else { if(!isset($_SESSION["calc_bmr_heigth"])) echo "checked";}?> />
+					<input id="height" name="height" type="radio" value="feet" onclick="showHide('feet','cm','ft/in','labelh');showHide('inch','cm','ft/in','labelh');" <?php if($_SESSION["calc_bmr_height"]=="feet") echo "checked"; ?> />
+					<label style="width:75px;display:inline;float:none;">ft/in</label>
+					<input id="height"  name="height" type="radio" value="cm" onclick="showHide('cm','feet','cm','labelh');showHide('cm','inch','cm','labelh');" <?php if($_SESSION["calc_bmr_height"]=="cm") echo "checked"; else { if(!isset($_SESSION["calc_bmr_heigth"])) echo "checked";}?> />
 					<label style="width:75px;display:inline;float:none;">cm</label>
-					<input id="height" name="height" type="radio" value="feet" onclick="showHide('feet','cm','feet/inch','labelh');showHide('inch','cm','feet/inch','labelh');" <?php if($_SESSION["calc_bmr_height"]=="feet") echo "checked"; ?> />
-					<label style="width:75px;display:inline;float:none;">feet/inch</label>
+					
 
 	</p>
 		<p><label >&nbsp;</label>
@@ -259,13 +279,18 @@ if(!empty($_POST['calculator_ok']))
                    </span>
 	</p>
 
-
+  <p><label>Goal:</label> <select name="goal">
+    <option value="lose">Lose Fat</option>
+    <option value="maintain">Maintain</option>
+    <option value="gain">Gain Muscle</option>
+    </select></p>
+	
   <p><label>Daily Activity:</label> <select name="activity">
-    <option value="0.8">No sport/exercise</option>
-    <option value="0.9">Light activity (sport 1-3 times per week)</option>
-    <option value="1.0">Moderate activity (sport 3-5 times per week)</option>
-    <option value="1.1">High activity (everyday exercise)</option>
-    <option value="1.2">Extreme activity (professional athlete)</option>
+    <option value="1">No sport/exercise</option>
+    <option value="1.1">Light activity (sport 1-3 times per week)</option>
+    <option value="1.2">Moderate activity (sport 3-5 times per week)</option>
+    <option value="1.3">High activity (everyday exercise)</option>
+    <option value="1.5">Extreme activity (twice per day exercise)</option>
     </select></p>
 
 
@@ -277,13 +302,15 @@ if(!empty($_POST['calculator_ok']))
 <?php if(!empty($_POST['calculator_ok'])):?>
     <div id="table">
     	<div class="rowheader" style="background-color:#4BACE6;">
-    					Your BMR is: <?php echo number_format($BMR); ?> calories/day
+    					BMR : <?php echo number_format($BMR); ?> calories/day<br>
+						TDEE : <?php echo number_format($TDEE); ?> calories/day
     	</div>
         <?php if($calc_mode):?>
         <div class="rowheader" style="background-color:#4BACE6;">
-						<p>Total amount of Protein needed per day: <?php echo number_format($dailyProtein)?>g per day</p>
-						<p>Total amount of Fat needed per day: <?php echo number_format($dailyFat)?>g per day</p>
-						<p>Total amount of Carbs per day: <?php echo number_format(($BMR - ($dailyProtein*4 + $dailyFat*9))/4)?>g per day</p>
+						<p>Protein: <?php echo number_format($protein);?>g per day</p>
+						<p>Carbs: <?php echo number_format($carbs);?>g per day</p>
+						<p>Fat: <?php echo number_format($fat);?>g per day</p>
+						
         </div>
         <?php endif;?>
     </div>
