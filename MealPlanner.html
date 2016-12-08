@@ -3,7 +3,7 @@
 @date 11/1/2016
 @brief Prompts user to input total desired macros
 -->
-<!DOCTYPE html>
+
 <html>
 <head>
 <style>
@@ -92,11 +92,31 @@ input[type=submit]:active{
 <p id="rcorners1">MacroPrep </p>
 <div class="rcorners2"><p id="p01">Total Daily Macros</p>
 <form action="MealBuilder.php" method="post">
-
-<input type="number" name="protein" value="0" min="0" max= "500"> Protein (g)<br>
-<input type="number" name="carb" value="0" min="0" max= "500"> Carbs (g)<br>
-<input type="number" name="fat" value="0" min="0" max= "500"> Fats (g)<br><br>
-<input type="number" name="mealQty" value="1" min="1" max= "4"> Number of Meals<br><br></div><br>
+<?php
+if(!empty($_POST["protein"])){
+	$protein = $_POST["protein"];
+}
+else{
+	$protein = 0;
+}
+if(!empty($_POST["carbs"])){
+	$carbs = $_POST["carbs"];
+}
+else{
+	$carbs = 0;
+}
+if(!empty($_POST["fat"])){
+	$fat = $_POST["fat"];
+}
+else{
+	$fat = 0;
+}
+echo '
+<input type="number" name="protein" value="'.$protein.'" min="0" max= "500"> Protein (g)<br>
+<input type="number" name="carb" value="'.$carbs.'" min="0" max= "500"> Carbs (g)<br>
+<input type="number" name="fat" value="'.$fat.'" min="0" max= "500"> Fats (g)<br><br>';
+?>
+<input type="number" name="mealQty" value="1" min="1" max= "10"> Number of Meals<br><br></div><br>
 
 <input type="submit" class="submit"  value="Select Foods">
 
@@ -105,3 +125,4 @@ input[type=submit]:active{
 
 </body>
 </html>
+
