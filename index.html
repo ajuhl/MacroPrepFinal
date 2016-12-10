@@ -1,8 +1,47 @@
+<!DOCUMENT>
 <html>
 <style>
 
-div {
-	position: fixed;
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid black;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.macro {
 	top: 300px;
 	left: 700px;
 	margin: auto;
@@ -29,16 +68,90 @@ h1{
   border: 2px solid black;
 }
 
+.submit {
+  background-color: black;
+  color: rgba(252,227,0,1);
+  border-radius: 2px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: all 0.4s;
+  border: 1px solid black;
+  padding: 16px 16px;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+}
+
+input[type=text] {
+  width: 200px;
+  height: 25px;
+  -webkit-transition: width 0.4s, height 0.4s;
+  transition: width 0.4s, height 0.4s;
+  border: 2px solid black;
+  text-align: center;
+  margin: 5px;
+}
+input[type=password] {
+  width: 200px;
+  height: 25px;
+  -webkit-transition: width 0.4s, height 0.4s;
+  transition: width 0.4s, height 0.4s;
+  border: 2px solid black;
+  text-align: center;
+  margin: 5px;
+}
+
 </style>
 	<head>
 		<title>MacroPrep</title>
-		<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
 	</head>
 	<body>
-		<div>
+		<div class="macro">
 		<h1>MacroPrep</h1>
-		<a href="https://people.eecs.ku.edu/~hcrisp/MacroPrepFinal/NewUser.html" class='btn btn-info' role='button'>New User</a>
-		<a href="https://people.eecs.ku.edu/~hcrisp/MacroPrepFinal/ExistingUser.html" class='btn btn-info' role='button'>Existing User</a>
-	</div>
+			<form action="ExistingUser.php" method="post" >
+				Username: <input type="text" name="username" id="username" placeholder="username" required><br>
+				Password:  <input type="password" name="password" placeholder="password" required><br>
+			<input type="submit" value="Login" class='submit' role='button'>
+		</form>
+		<p> - or -</p>
+		<button class='submit' id="myBtn">New User</button>
+		</div>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+		<form action="NewUser.php" method="post" >
+			Create Username: <input type="text" name="username" id="username" placeholder="username" required><br>
+			Create Password:  <input type="password" name="password" id="password" placeholder="password" required><br>
+			<input type="submit" class='submit' role='button'>
+		</form>
+	 </div>
+
+</div>
+	<script>
+var modal = document.getElementById('myModal');
+
+var btn = document.getElementById("myBtn");
+
+var span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 	</body>
 </html>
+
