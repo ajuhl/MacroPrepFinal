@@ -2,7 +2,6 @@
 
 error_reporting(E_ALL&(~E_NOTICE));
 session_start();
-$user = $_POST['user'];
 $calc_mode=1;
 ?>
 <style type="text/css">
@@ -194,9 +193,10 @@ if(!empty($_POST['calculator_ok']))
 	{
 		$BMR= 655 + (4.3 * $_POST["lbs"]) + (4.7 * $inch) - (4.7 * $_POST["age"]);
 	}
-
-        $TDEE=$BMR*$_POST["activity"];
 		$goal = $_POST["goal"];
+		$activity = $_POST["activity"];
+        $TDEE=$BMR*$activity;
+		
 		
 	            switch ($goal) {
                 case "lose":
@@ -280,20 +280,20 @@ if(!empty($_POST['calculator_ok']))
                    </span>
 	</p>
 
-  <p><label>Goal:</label> <select name="goal" required>
+  <p><label>Goal:</label> <select name="goal" id="goal" required>
 	<option selected disabled style='display: inline' value> -- select a Goal--</option>
-    <option value="lose">Lose Fat</option>
-    <option value="maintain">Maintain</option>
-    <option value="gain">Gain Muscle</option>
+    <option value="lose" <?php if (isset($goal) && $goal=="lose") echo "selected";?>>Lose Fat</option>
+    <option value="maintain" <?php if (isset($goal) && $goal=="maintain") echo "selected";?>>Maintain</option>
+    <option value="gain" <?php if (isset($goal) && $goal=="gain") echo "selected";?>>Gain Muscle</option>
     </select></p>
 	
-  <p><label>Activity Level:</label> <select name="activity" required>
+  <p><label>Activity Level:</label> <select name="activity" id="activity" required>
 	<option selected disabled style='display: inline' value> -- select an Activity Level --</option>
-	<option value="1">No sport/exercise</option>
-    <option value="1.1">Light activity (sport 1-3 times per week)</option>
-    <option value="1.2">Moderate activity (sport 3-5 times per week)</option>
-    <option value="1.3">High activity (everyday exercise)</option>
-    <option value="1.5">Extreme activity (twice per day exercise)</option>
+	<option value="1" <?php if (isset($activity) && $activity=="1") echo "selected";?>>No sport/exercise</option>
+    <option value="1.1" <?php if (isset($activity) && $activity=="1.1") echo "selected";?>>Light activity (sport 1-3 times per week)</option>
+    <option value="1.2" <?php if (isset($activity) && $activity=="1.2") echo "selected";?>>Moderate activity (sport 3-5 times per week)</option>
+    <option value="1.3" <?php if (isset($activity) && $activity=="1.3") echo "selected";?>>High activity (everyday exercise)</option>
+    <option value="1.5" <?php if (isset($activity) && $activity=="1.5") echo "selected";?>>Extreme activity (twice per day exercise)</option>
     </select></p>
 	
 
@@ -319,8 +319,7 @@ if(!empty($_POST['calculator_ok']))
 						<input type='hidden' name='carbs' value='<?php echo number_format($carbs);?>'/> 
 						<p>Fat: <?php echo number_format($fat);?>g per day</p>
 						<input type='hidden' name='fat' value='<?php echo number_format($fat);?>'/> 
-						<input type='hidden' name='user' value='<?php echo $user;?>'>
-						
+							
         </div>
 		
 		<input type="submit" class="submit"  value="Use Calculated Macros">
