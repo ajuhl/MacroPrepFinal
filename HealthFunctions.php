@@ -8,7 +8,7 @@ $calc_mode=1;
 .calculator_div
 {
 	font-family:verdana, arial, sans-serif;
-	border:2pt solid #4444FF;
+	border:2pt solid black;
 	padding:5px;
 	width:330px;
 	margin:auto;
@@ -52,6 +52,62 @@ label
 	font-weight:bolder;
 	color:white;
     text-align:center;
+}
+
+.macro {
+	top: 300px;
+	left: 700px;
+	margin: auto;
+	border-radius: 15px 50px 30px;
+	padding: 20px;
+	border: 2px solid black;
+	width: 500px;
+	box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+	background: linear-gradient(135deg, rgba(252,227,0,1) 0%, rgba(255,242,173,1) 52%, rgba(252,227,0,1) 100%);
+}
+
+h1{
+	margin: auto;
+  margin-bottom: 20px;
+  border-radius: 25px;
+  border: 2px solid rgb(230, 230, 0);
+  background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(25,25,25,1) 10%,rgba(25,25,25,1) 70%,rgba(51,51,51,1) 85%,rgba(102,102,102,1) 100%);
+  padding: 20px;
+  width: 450px;
+  height: 50px;
+  font-size: 40px;
+  text-align: center;
+  color: rgba(252,227,0,1);
+  border: 2px solid black;
+}
+
+.submit {
+  background-color: black;
+  color: rgba(252,227,0,1);
+  border-radius: 2px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: all 0.4s;
+  border: 1px solid black;
+  padding: 16px 16px;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+}
+
+input[type=text] {
+  -webkit-transition: width 0.4s, height 0.4s;
+  transition: width 0.4s, height 0.4s;
+  border: 2px solid black;
+  text-align: center;
+  margin: 5px;
+}
+
+select {
+  -webkit-transition: width 0.4s, height 0.4s;
+  transition: width 0.4s, height 0.4s;
+  border: 2px solid black;
+  text-align: center;
+  margin: 5px;
 }
 </style>
 <script language="javascript">
@@ -211,20 +267,25 @@ if(!empty($_POST['calculator_ok']))
                     $fat = (0.20 * $TDEE / 9);
                     break;
                 case "maintain":
-                    $carbs = (0.44 * $TDEE / 4);
-                    $protein = (0.31 * $TDEE / 4);
+                    $carbs = (0.45 * $TDEE / 4);
+                    $protein = (0.30 * $TDEE / 4);
                     $fat = (0.25 * $TDEE / 9);
                     break;
                 case "gain":
                     $TDEE += 500;
-                    $carbs = (0.39 * $TDEE / 4);
-                    $protein = (0.36 * $TDEE / 4);
+                    $carbs = (0.45 * $TDEE / 4);
+                    $protein = (0.30 * $TDEE / 4);
                     $fat = (0.25 * $TDEE / 9);
                     break;
             }
 }
 ?>
-
+<head>
+		<title>MacroPrep</title>
+	</head>
+	<body>
+		<div class='macro'>
+		<h1>MacroPrep</h1>";
 <div class="calculator_div">
 	<form method="post" name="form1" onsubmit="return validateForm(this);">
 	<p><label>Your age:</label>
@@ -299,20 +360,20 @@ if(!empty($_POST['calculator_ok']))
 
 
 	<div style="text-align:center;clear:both;">
-	<input type="submit" value="Calculate!"></div>
+	<input type="submit" class='submit' value="Calculate!"></div>
 	<input type="hidden" name="calculator_ok" value="1">
 	</form>
 
 
 <?php if(!empty($_POST['calculator_ok'])):?>
     <div id="table">
-    	<div class="rowheader" style="background-color:#4BACE6;">
+    	<div class="rowheader" style="background-color:black;">
     					BMR : <?php echo number_format($BMR); ?> calories/day<br>
 						TDEE : <?php echo number_format($TDEE); ?> calories/day
     	</div>
         <?php if($calc_mode):?>
 		<form action="MealPlanner.html" method="post">
-        <div class="rowheader" style="background-color:#4BACE6;">
+        <div class="rowheader" style="background-color:black;">
 						<p>Protein: <?php echo number_format($protein);?>g per day</p>
 						<input type='hidden' name='protein' value='<?php echo number_format($protein);?>'/> 
 						<p>Carbs: <?php echo number_format($carbs);?>g per day</p>
@@ -322,7 +383,7 @@ if(!empty($_POST['calculator_ok']))
 							
         </div>
 		
-		<input type="submit" class="submit"  value="Use Calculated Macros">
+		<br><input type="submit" class="submit"  value="Use Calculated Macros">
 		</form
         <?php endif;?>
     </div>
