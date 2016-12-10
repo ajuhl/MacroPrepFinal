@@ -15,7 +15,7 @@ if($result->num_rows > 0){
 	while($row = $result->fetch_assoc()){
 		if($row['user_id'] == $user || $user == null){
 			echo "<p>User already exists.</p><br>
-								<a href='https://people.eecs.ku.edu/~ajuhl/eecs448/Final/NewUser.html' class='btn btn-info' role='button'>Try again</a>";
+								<a href='https://people.eecs.ku.edu/~hcrisp/MacroPrepFinal/NewUser.html' class='btn btn-info' role='button'>Try again</a>";
 			$continue = 0;
 			return;
 		}
@@ -24,7 +24,7 @@ if($result->num_rows > 0){
 if($result->num_rows == 0 || $continue == 1){
 	$conn->query($insert);
 	echo "<p>User '".$user."' has been created. Click 'Home' and log in with your username and password. </p><br>
-				<a href='https://people.eecs.ku.edu/~ajuhl/eecs448/Final/index.html' class='btn btn-info' role='button'>Home</a>";
+				<a href='https://people.eecs.ku.edu/~hcrisp/MacroPrepFinal/index.html' class='btn btn-info' role='button'>Home</a>";
 }
 echo "</body>
 		</html>";

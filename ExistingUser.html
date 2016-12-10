@@ -1,15 +1,30 @@
 <html>
+<style>
+div {
+	position: fixed;
+	top: 300px;
+	left: 700px;
+	margin: auto;
+	border-radius: 15px 50px 30px;
+	padding: 20px;
+	border: 2px solid black;
+	width: 500px;
+	box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+	background: linear-gradient(135deg, rgba(252,227,0,1) 0%, rgba(255,242,173,1) 52%, rgba(252,227,0,1) 100%);
+}
+</style>
 	<head>
 		<title>Existing User</title>
 		<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
 	</head>
 	<body>
+		<div>
 		<form action="ExistingUser.php" method="post" >
 			Username: <input type="text" name="username" id="username" placeholder="username" required><br>
 			Password: <input type="password" name="password" placeholder="password" required><br>
 			<input type="submit" value="Login" class='btn btn-info' role='button'>
 		</form>
-		<a href="https://people.eecs.ku.edu/~ajuhl/eecs448/Final/index.html" class='btn btn-info' role='button'>Home</a>
+		<a href="" class='btn btn-info' role='button'>Home</a>
+	</div>
 	</body>
 </html>
-
