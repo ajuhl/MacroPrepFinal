@@ -193,9 +193,10 @@ if(!empty($_POST['calculator_ok']))
 	{
 		$BMR= 655 + (4.3 * $_POST["lbs"]) + (4.7 * $inch) - (4.7 * $_POST["age"]);
 	}
-
-        $TDEE=$BMR*$_POST["activity"];
 		$goal = $_POST["goal"];
+		$activity = $_POST["activity"];
+        $TDEE=$BMR*$activity;
+		
 		
 	            switch ($goal) {
                 case "lose":
@@ -257,17 +258,17 @@ if(!empty($_POST['calculator_ok']))
 
 
 	<p><label>Your height:</label>
-					<input id="height" name="height" type="radio" value="feet" onclick="showHide('feet','cm','ft/in','labelh');showHide('inch','cm','ft/in','labelh');" <?php if($_SESSION["calc_bmr_height"]=="feet") echo "checked"; ?> />
+					<input id="height" name="height" type="radio" value="feet" onclick="showHide('feet','cm','ft/in','labelh');showHide('inch','cm','ft/in','labelh');" <?php if($_SESSION["calc_bmr_height"]=="feet") echo "checked"; else { if(!isset($_SESSION["calc_bmr_heigth"])) echo "checked";}?> />
 					<label style="width:75px;display:inline;float:none;">ft/in</label>
-					<input id="height"  name="height" type="radio" value="cm" onclick="showHide('cm','feet','cm','labelh');showHide('cm','inch','cm','labelh');" <?php if($_SESSION["calc_bmr_height"]=="cm") echo "checked"; else { if(!isset($_SESSION["calc_bmr_heigth"])) echo "checked";}?> />
+					<input id="height"  name="height" type="radio" value="cm" onclick="showHide('cm','feet','cm','labelh');showHide('cm','inch','cm','labelh');" <?php if($_SESSION["calc_bmr_height"]=="cm") echo "checked"; ?> />
 					<label style="width:75px;display:inline;float:none;">cm</label>
 					
 
 	</p>
 		<p><label >&nbsp;</label>
-					<input type="text" name="cm" id="cm" size="4" onkeyup="IsNumber(this.id);CmToFt(this.value,'feet','inch');" value="<?php echo $_SESSION["calc_bmr_cm"];?>">
-					<input type="text" name="feet" id="feet" size="4" onkeyup="IsNumber(this.id);FtToCm('feet','inch','cm');" style="display:none;" value="<?php echo $_SESSION["calc_bmr_feet"]; ?>">
-					<input type="text" name="inch" id="inch" size="4" onkeyup="IsNumber(this.id);FtToCm('feet','inch','cm');" style="display:none;" value="<?php echo $_SESSION["calc_bmr_inch"]; ?>">
+					<input type="text" name="feet" id="feet" size="4" onkeyup="IsNumber(this.id);FtToCm('feet','inch','cm');" style="display:inline;" value="<?php echo $_SESSION["calc_bmr_feet"]; ?>">
+					<input type="text" name="inch" id="inch" size="4" onkeyup="IsNumber(this.id);FtToCm('feet','inch','cm');" style="display:inline;" value="<?php echo $_SESSION["calc_bmr_inch"]; ?>">
+					<input type="text" name="cm" id="cm" size="4" onkeyup="IsNumber(this.id);CmToFt(this.value,'feet','inch');" style="display:none;" value="<?php echo $_SESSION["calc_bmr_cm"];?>">
 					<span id=labelh >
 					<?php if($_SESSION["calc_bmr_height"]=="feet"):?>
 					feet/inch
@@ -275,23 +276,26 @@ if(!empty($_POST['calculator_ok']))
 					showHide('feet','cm','feet/inch','labelh');
                     showHide('inch','cm','feet/inch','labelh');
 					</SCRIPT>
-					<?php else:?>cm<?php endif;?>
+					<?php else:?>ft/in<?php endif;?>
                    </span>
 	</p>
 
-  <p><label>Goal:</label> <select name="goal">
-    <option value="lose">Lose Fat</option>
-    <option value="maintain">Maintain</option>
-    <option value="gain">Gain Muscle</option>
+  <p><label>Goal:</label> <select name="goal" id="goal" required>
+	<option selected disabled style='display: inline' value> -- select a Goal--</option>
+    <option value="lose" <?php if (isset($goal) && $goal=="lose") echo "selected";?>>Lose Fat</option>
+    <option value="maintain" <?php if (isset($goal) && $goal=="maintain") echo "selected";?>>Maintain</option>
+    <option value="gain" <?php if (isset($goal) && $goal=="gain") echo "selected";?>>Gain Muscle</option>
     </select></p>
 	
-  <p><label>Daily Activity:</label> <select name="activity">
-    <option value="1">No sport/exercise</option>
-    <option value="1.1">Light activity (sport 1-3 times per week)</option>
-    <option value="1.2">Moderate activity (sport 3-5 times per week)</option>
-    <option value="1.3">High activity (everyday exercise)</option>
-    <option value="1.5">Extreme activity (twice per day exercise)</option>
+  <p><label>Activity Level:</label> <select name="activity" id="activity" required>
+	<option selected disabled style='display: inline' value> -- select an Activity Level --</option>
+	<option value="1" <?php if (isset($activity) && $activity=="1") echo "selected";?>>No sport/exercise</option>
+    <option value="1.1" <?php if (isset($activity) && $activity=="1.1") echo "selected";?>>Light activity (sport 1-3 times per week)</option>
+    <option value="1.2" <?php if (isset($activity) && $activity=="1.2") echo "selected";?>>Moderate activity (sport 3-5 times per week)</option>
+    <option value="1.3" <?php if (isset($activity) && $activity=="1.3") echo "selected";?>>High activity (everyday exercise)</option>
+    <option value="1.5" <?php if (isset($activity) && $activity=="1.5") echo "selected";?>>Extreme activity (twice per day exercise)</option>
     </select></p>
+	
 
 
 	<div style="text-align:center;clear:both;">
@@ -315,7 +319,9 @@ if(!empty($_POST['calculator_ok']))
 						<input type='hidden' name='carbs' value='<?php echo number_format($carbs);?>'/> 
 						<p>Fat: <?php echo number_format($fat);?>g per day</p>
 						<input type='hidden' name='fat' value='<?php echo number_format($fat);?>'/> 
+							
         </div>
+		
 		<input type="submit" class="submit"  value="Use Calculated Macros">
 		</form
         <?php endif;?>
