@@ -285,7 +285,7 @@ if(!empty($_POST['calculator_ok']))
 	</head>
 	<body>
 		<div class='macro'>
-		<h1>MacroPrep</h1>";
+		<h1>MacroPrep</h1>
 <div class="calculator_div">
 	<form method="post" name="form1" onsubmit="return validateForm(this);">
 	<p><label>Your age:</label>
