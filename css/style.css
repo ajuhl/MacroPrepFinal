@@ -58,7 +58,7 @@ body{
 .servingDisplay{
 	position:relative;
 	top:-3px;
-	font-size:0.8em;
+	font-size:1em;
 	width:265px;
 	text-align:right;
 }
