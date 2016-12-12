@@ -39,6 +39,7 @@ h1{
 }
 
 .submit {
+  display: inline;
   background-color: black;
   color: rgba(252,227,0,1);
   border-radius: 2px;
@@ -50,6 +51,10 @@ h1{
   cursor: pointer;
   padding: 10px;
 }
+form{
+	display: inline;
+	margin: auto;
+	}
 
 input[type=text] {
   width: 200px;
@@ -70,6 +75,10 @@ input[type=password] {
   margin: 5px;
 }
 
+.buttons{
+	text-align: center;
+}
+
 </style>
 	<head>
 		<title>MacroPrep</title>
@@ -81,7 +90,9 @@ if($result->num_rows > 0){
 $exists = 0;
 	while($row = $result->fetch_assoc()){
 		if($row['user_id'] == $user && $row['user_pw'] == $password){
-			echo "<p>Welcome back ".$user."!</p><br>
+			echo "<div class='buttons'>
+							<p>Welcome back ".$user."!</p><br>
+							
 								<form action='MealPlanner.html'>
 									<input type='submit'  class='submit' value='Input Macros'>
 								</form>
@@ -90,7 +101,8 @@ $exists = 0;
 								</form>
 								<form action='Saved.php'>
 									<input type='submit'  class='submit' value='View Saved MacroPreps'>
-								</form>";
+								</form>
+					</div>";
 								$exists = 1;
 								setcookie("user", $user, time() + 43200, '/', null, true, true );
 			return;
