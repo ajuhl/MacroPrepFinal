@@ -16,6 +16,7 @@ $(document).ready(function() {
 
 	$('.servingSlider').each(function(index){
 		updateServingDisplay(index);
+		console.log(index);
 	});
 
 });
@@ -133,7 +134,7 @@ function updateDisplayForMeal(meal){
 	updateMacroDisplay(proteinDisplay,mealProtein,proteinGoal);
 	updateMacroDisplay(carbDisplay,mealCarb,carbGoal);
 	updateMacroDisplay(fatDisplay,mealFat,fatGoal);
-	updateTotalMacro();
+	//updateTotalMacro();
 
 }
 
