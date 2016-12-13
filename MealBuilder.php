@@ -90,7 +90,7 @@ for($m=1;$m<=$mealQty;$m++){
 		</table>
 		<div class="foodWrapper">
 			<div class="foodContainer">
-				
+
 			</div>
 			<input class="addFood" type="button" value="+"/>
 		</div>
@@ -98,7 +98,7 @@ for($m=1;$m<=$mealQty;$m++){
 <?php
 }
 ?>
-<input type="submit"/>	
+<input type="submit" class="submit" value="Calculate Servings"/>	
 </form>
 
 <div class="goals">

@@ -19,18 +19,20 @@ function updateMacroFromSlider(event){
 			$('#proteinGoal').removeClass('green');
 			$('#proteinGoal').addClass('orange');
 		}
-	}else if(index%3==1){
+	}
+	else if(index%3==1){
 		$('#carbGoal').html('Current Total: '+total+'g');
-		if(total==document.totalProtein){
+		if(total==document.totalCarb){
 			$('#carbGoal').addClass('green');
 			$('#carbGoal').removeClass('orange');
 		}else{
 			$('#carbGoal').removeClass('green');
 			$('#carbGoal').addClass('orange');
 		}
-	}else{
+	}
+	else{
 		$('#fatGoal').html('Current Total: '+total+'g');
-		if(total==document.totalProtein){
+		if(total==document.totalFat){
 			$('#fatGoal').addClass('green');
 			$('#fatGoal').removeClass('orange');
 		}else{
