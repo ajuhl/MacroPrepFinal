@@ -1,7 +1,5 @@
 
-var totalArray = [
-	[], [], []
-];
+var totalArray = [[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
 
 
 $(document).ready(function() {
