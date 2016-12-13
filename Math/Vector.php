@@ -20,8 +20,8 @@
 //
 
 require_once "PEAR.php";
-require_once "Math/Tuple.php";
-require_once "Math/VectorOp.php";
+require_once "Tuple.php";
+require_once "VectorOp.php";
 
 /**
  * General Vector class
