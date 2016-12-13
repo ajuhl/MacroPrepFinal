@@ -29,6 +29,9 @@ $totalProtein = $_POST['protein'];
 $totalCarb = $_POST['carb'];
 $totalFat = $_POST['fat'];
 $mealQty = $_POST['mealQty'];
+$currProteinTotal = 0;
+$currCarbTotal = 0;
+$currFatTotal = 0;
 
 for($m=1;$m<=$mealQty;$m++){
 $curMealProtein = $_POST['m'.$m.'protein'];
@@ -68,7 +71,6 @@ if($mealIsEmpty==false){
 		<tr>
 		 <td><h2>Protein:</h2></td>
 		 <td><div class="macroDisplay" goal="<?php echo $curMealProtein?>"></div></td>
-		 <td><div class="" goal="<?php echo $curMealProtein?>"></div></td>
 		</tr>
 		<tr>
 		 <td><h2>Carbs:</h2></td>
@@ -85,14 +87,14 @@ if($mealIsEmpty==false){
 			?>
 				<div class="servingContainer">
 					<?php echo $foods[$x]['name'].'<br>';?>
-					<input type="range" class="servingSlider" 
-						meal="<?php echo $m ?>" 
-						id="<?php echo $foods[$x]['id']?>" 
-						protein="<?php echo $foods[$x]['protein']?>" 
-						carb="<?php echo $foods[$x]['carb']?>" 
-						fat="<?php echo $foods[$x]['fat']?>" 
-						serving="<?php echo $foods[$x]['measure']?>" 
-						value="<?php echo $servingSizes[$x] ?>" 
+					<input type="range" class="servingSlider"
+						meal="<?php echo $m ?>"
+						id="<?php echo $foods[$x]['id']?>"
+						protein="<?php echo $foods[$x]['protein']?>"
+						carb="<?php echo $foods[$x]['carb']?>"
+						fat="<?php echo $foods[$x]['fat']?>"
+						serving="<?php echo $foods[$x]['measure']?>"
+						value="<?php echo $servingSizes[$x] ?>"
 						min="0" max="15" step="0.01"/>
 					<div class="servingDisplay"></div>
 				</div>
@@ -101,12 +103,21 @@ if($mealIsEmpty==false){
 			?>
 		</div>
 	</div>
+
 <?php
+
 }
 ?>
 
 </form>
-
+<div class="goals">
+	<h1>Protein</h1>
+		<div id="proteinGoal" class="goal green">Current Total: <?php echo $currProteinTotal; ?>g</div><div class="goal">Daily Goal: <?php echo $totalProtein; ?>g</div>
+	<h1>Carbs</h1>
+		<div id="carbGoal" class="goal green">Current Total: <?php echo $currCarbTotal; ?>g</div><div class="goal">Daily Goal: <?php echo $totalCarb; ?>g</div>
+	<h1>Fat</h1>
+		<div id="fatGoal" class="goal green">Current Total: <?php echo $currFatTotal; ?>g</div><div class="goal">Daily Goal: <?php echo $totalFat; ?>g</div>
+</div>
 </body>
 
 </html>
