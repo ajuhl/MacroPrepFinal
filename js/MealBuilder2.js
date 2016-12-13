@@ -65,7 +65,7 @@ function updateServingsFromChange(index){
 				var newProteinDiff = proteinDiff + change * $(element).attr('protein');
 				var newCarbDiff    = carbDiff + change * $(element).attr('carb');
 				var newFatDiff     = fatDiff + change * $(element).attr('fat');
-				possibleDiffs[index] = Math.abs(newProteinDiff) + Math.abs(newCarbDiff) + Math.abs(newFatDiff);			
+				possibleDiffs[index] = Math.abs(newProteinDiff) + Math.abs(newCarbDiff) + Math.abs(newFatDiff);
 		});
 		smallestDiff = Math.min(...possibleDiffs);
 		if(smallestDiff<totalDiff){
@@ -90,7 +90,7 @@ function updateServingsFromChange(index){
 			var newProteinDiff = proteinDiff + change * $(element).attr('protein');
 			var newCarbDiff    = carbDiff + change * $(element).attr('carb');
 			var newFatDiff     = fatDiff + change * $(element).attr('fat');
-			newDiff = Math.abs(newProteinDiff) + Math.abs(newCarbDiff) + Math.abs(newFatDiff);			
+			newDiff = Math.abs(newProteinDiff) + Math.abs(newCarbDiff) + Math.abs(newFatDiff);
 			if(newDiff<totalDiff){
 				element.value = parseFloat(element.value) + change;
 				updateServingDisplay(index);
@@ -134,7 +134,7 @@ function updateDisplayForMeal(meal){
 	updateMacroDisplay(proteinDisplay,mealProtein,proteinGoal);
 	updateMacroDisplay(carbDisplay,mealCarb,carbGoal);
 	updateMacroDisplay(fatDisplay,mealFat,fatGoal);
-	//updateTotalMacro();
+	updateTotalMacro();
 
 }
 
@@ -153,4 +153,44 @@ function updateMacroDisplay(display,current,target){
 		display.addClass('orange');
 	}
 	display.attr('current',current);
+}
+
+function updateTotalMacro()
+{
+	var proteinTotal = 0;
+	var carbTotal = 0;
+	var fatTotal= 0;
+
+	for(var i = 0; i<totalArray.length; i++)
+	{
+		proteinTotal += totalArray[i][0];
+		carbTotal += totalArray[i][1];
+		fatTotal += totalArray[i][2];
+	}
+  $('#proteinGoal').html('Current Total: '+proteinTotal+'g');
+		if(proteinTotal==document.totalProtein){
+			$('#proteinGoal').addClass('green');
+			$('#proteinGoal').removeClass('orange');
+		}else{
+			$('#proteinGoal').removeClass('green');
+			$('#proteinGoal').addClass('orange');
+		}
+
+	$('#carbGoal').html('Current Total: '+carbTotal+'g');
+		if(carbTotal==document.totalCarb){
+			$('#carbGoal').addClass('green');
+			$('#carbGoal').removeClass('orange');
+		}else{
+			$('#carbGoal').removeClass('green');
+			$('#carbGoal').addClass('orange');
+		}
+	$('#fatGoal').html('Current Total: '+fatTotal+'g');
+		if(fatTotal==document.totalFat){
+			$('#fatGoal').addClass('green');
+			$('#fatGoal').removeClass('orange');
+		}else{
+			$('#fatGoal').removeClass('green');
+			$('#fatGoal').addClass('orange');
+		}
+
 }
