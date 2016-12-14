@@ -1,8 +1,14 @@
-
-var totalArray = [[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+// Array to hold current total values of Protein, Carb, and Fat from each meal,
+// up to 10 meals
+var totalArray = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
 
 
 $(document).ready(function() {
+	//create globals with info from last page
+	document.totalProtein = parseInt($('[name="protein"]')[0].value);
+	document.totalCarb = parseInt($('[name="carb"]')[0].value);
+	document.totalFat = parseInt($('[name="fat"]')[0].value);
+
 	servingSliders = $('.servingSlider');
 	servingSliders.on('input', updateSlidersAndDisplays);
 	servingSliders.each(function(index, element){
@@ -21,6 +27,8 @@ $(document).ready(function() {
 
 });
 
+//Updates the displayed values of the servings and macronutrients as
+// the values change based on user input
 function updateSlidersAndDisplays(event){
 	var source = $(event.target || event.srcElement);
 	var meal = source.attr('meal');
@@ -30,6 +38,7 @@ function updateSlidersAndDisplays(event){
 	updateDisplayForMeal(meal);
 	source.attr('prevValue',source.val());
 }
+
 
 function updateServingDisplay(index){
 	var slider = $($('.servingSlider')[index]);
@@ -119,6 +128,10 @@ function updateDisplayForMeal(meal){
 		mealCarb += parseInt( parseFloat($(element).attr('carb')) * parseFloat($(element).val()) );
 		mealFat += parseInt( parseFloat($(element).attr('fat')) * parseFloat($(element).val()) );
 	});
+
+	//Adds values of total protein, carb, and fat from this specific meal
+	// Protein in the first index, Carbs in the second, and Fats in the third
+	// Ex: totalArray[0][0] would be the amount of protein for the first meal
 	totalArray[meal-1][0] = mealProtein;
 	totalArray[meal-1][1] = mealCarb;
 	totalArray[meal-1][2] = mealFat;
@@ -131,19 +144,23 @@ function updateDisplayForMeal(meal){
 	var carbGoal    = carbDisplay.attr('goal');
 	var fatGoal     = fatDisplay.attr('goal');
 
+	//Update display for each macronutrient
 	updateMacroDisplay(proteinDisplay,mealProtein,proteinGoal);
 	updateMacroDisplay(carbDisplay,mealCarb,carbGoal);
 	updateMacroDisplay(fatDisplay,mealFat,fatGoal);
-	updateTotalMacro();
+	updateTotalMacroCounter();
 
 }
 
+//Displays current total value of macronutrient for meal
 function updateMacroDisplay(display,current,target){
+	//Displays a green color if the value is equal to the goal
 	if(current==target){
 		display.html(current+'g');
 		display.addClass('green');
 		display.removeClass('orange');
 	}
+	//Determines how much the value is over or under from goal and displays red
 	else{
 		var suffix = (current>target) ? 'over':'under';
 		var difference = Math.abs(current-target);
@@ -155,19 +172,24 @@ function updateMacroDisplay(display,current,target){
 	display.attr('current',current);
 }
 
-function updateTotalMacro()
+//Updates the total macronutrient counter based on all values from all meals
+function updateTotalMacroCounter()
 {
 	var proteinTotal = 0;
 	var carbTotal = 0;
 	var fatTotal= 0;
 
+//Adds all the values from each meal into specific variables
 	for(var i = 0; i<totalArray.length; i++)
 	{
 		proteinTotal += totalArray[i][0];
 		carbTotal += totalArray[i][1];
 		fatTotal += totalArray[i][2];
 	}
+
+	//Update the running total protein value with calculated total from all meals
   $('#proteinGoal').html('Current Total: '+proteinTotal+'g');
+	//Change color of text depending on if it is equal to the total daily goal
 		if(proteinTotal==document.totalProtein){
 			$('#proteinGoal').addClass('green');
 			$('#proteinGoal').removeClass('orange');
@@ -175,8 +197,9 @@ function updateTotalMacro()
 			$('#proteinGoal').removeClass('green');
 			$('#proteinGoal').addClass('orange');
 		}
-
+	//Update the running total carbs value with calculated total from all meals
 	$('#carbGoal').html('Current Total: '+carbTotal+'g');
+	//Change color of text depending on if it is equal to the total daily goal
 		if(carbTotal==document.totalCarb){
 			$('#carbGoal').addClass('green');
 			$('#carbGoal').removeClass('orange');
@@ -184,7 +207,9 @@ function updateTotalMacro()
 			$('#carbGoal').removeClass('green');
 			$('#carbGoal').addClass('orange');
 		}
+	//Update the running total fats value with calculated total from all meals
 	$('#fatGoal').html('Current Total: '+fatTotal+'g');
+	//Change color of text depending on if it is equal to the total daily goal
 		if(fatTotal==document.totalFat){
 			$('#fatGoal').addClass('green');
 			$('#fatGoal').removeClass('orange');

@@ -23,13 +23,15 @@ require_once('nnls.php');
 
 <form action="ShoppingList.php" method="POST">
 <?php
-$totalProtein = $_POST['proteinGoal'];
-$totalCarb = $_POST['carbGoal'];
-$totalFat = $_POST['fatGoal'];
+$totalProtein = $_POST['protein'];
+$totalCarb = $_POST['carb'];
+$totalFat = $_POST['fat'];
 $mealQty = $_POST['mealQty'];
-$currProteinTotal = 0;
-$currCarbTotal = 0;
-$currFatTotal = 0;
+
+//Allows JavaScript to access variable values
+echo '<input type="hidden" name="protein" value="'.$totalProtein.'">';
+echo '<input type="hidden" name="carb" value="'.$totalCarb.'">';
+echo '<input type="hidden" name="fat" value="'.$totalFat.'">';
 
 for($m=1;$m<=$mealQty;$m++){
 	$curMealProtein = $_POST['m'.$m.'protein'];
@@ -115,11 +117,11 @@ for($m=1;$m<=$mealQty;$m++){
 </form>
 <div class="goals">
 	<h1>Protein</h1>
-		<div id="proteinGoal" class="goal green">Current Total: <?php echo $currProteinTotal; ?>g</div><div class="goal">Daily Goal: <?php echo $totalProtein; ?>g</div>
+		<div id="proteinGoal" class="goal green"></div><div class="goal">Daily Goal: <?php echo $totalProtein; ?>g</div>
 	<h1>Carbs</h1>
-		<div id="carbGoal" class="goal green">Current Total: <?php echo $currCarbTotal; ?>g</div><div class="goal">Daily Goal: <?php echo $totalCarb; ?>g</div>
+		<div id="carbGoal" class="goal green"></div><div class="goal">Daily Goal: <?php echo $totalCarb; ?>g</div>
 	<h1>Fat</h1>
-		<div id="fatGoal" class="goal green">Current Total: <?php echo $currFatTotal; ?>g</div><div class="goal">Daily Goal: <?php echo $totalFat; ?>g</div>
+		<div id="fatGoal" class="goal green"></div><div class="goal">Daily Goal: <?php echo $totalFat; ?>g</div>
 </div>
 </body>
 

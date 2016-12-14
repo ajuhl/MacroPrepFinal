@@ -98,7 +98,7 @@ for($m=1;$m<=$mealQty;$m++){
 <?php
 }
 ?>
-<input type="submit" class="submit" value="Calculate Servings"/>	
+<input type="submit" class="submit" value="Calculate Servings"/>
 </form>
 
 <div class="goals">
