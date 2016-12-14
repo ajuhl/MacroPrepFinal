@@ -23,9 +23,9 @@ require_once('nnls.php');
 
 <form action="ShoppingList.php" method="POST">
 <?php
-$totalProtein = $_POST['protein'];
-$totalCarb = $_POST['carb'];
-$totalFat = $_POST['fat'];
+$totalProtein = $_POST['proteinGoal'];
+$totalCarb = $_POST['carbGoal'];
+$totalFat = $_POST['fatGoal'];
 $mealQty = $_POST['mealQty'];
 $currProteinTotal = 0;
 $currCarbTotal = 0;
@@ -110,7 +110,7 @@ for($m=1;$m<=$mealQty;$m++){
 }
 ?>
 
-<input type="submit" class="submit"/>
+<input type="submit" value='Save' class="submit"/>
 
 </form>
 <div class="goals">

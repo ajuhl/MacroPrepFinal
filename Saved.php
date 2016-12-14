@@ -2,7 +2,7 @@
 require_once('./inc/serverConnect.php');
 
 $user = $_COOKIE['user'];
-$query= "SELECT name,doc FROM Meals WHERE user_id = '".$user."'";
+$query= "SELECT date,meal,shopping FROM Meals WHERE user_id = '".$user."'";
 $result = $conn->query($query);
 echo "<html>
 
@@ -26,7 +26,7 @@ echo "<html>
 					border: 2px solid black;
 				}
 				tr{
-					background: rgba(252,227,0,1);
+					background:rgba(252,227,0,1);
 				}
 				.macro {
 					top: 300px;
@@ -68,14 +68,16 @@ form{
 if($result->num_rows > 0){
 	echo "<table>
 						<tr>
+							<th>Date Created</th>
 							<th>MacroPrep</th>
-							<th>Details</th>
+							<th>Shopping List</th>
 						</tr>";
 	while($row = $result->fetch_assoc()){
 		echo "
 						<tr>
-							<td>".$row['name']."</td>
-							<td>".$row['doc']."</td>
+							<td>".$row['date']."</td>
+							<td>".$row['meal']."</td>
+							<td>".$row['shopping']."</td>
 						</tr>";							
 	}
 	echo	 "</table>
