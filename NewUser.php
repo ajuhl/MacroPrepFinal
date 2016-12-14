@@ -92,7 +92,11 @@ if($result->num_rows > 0){
 }
 if($result->num_rows == 0 || $continue == 1){
 	$conn->query($insert);
-	header('location: index.html');
+	if(isset($_POST['test'])){
+		header('location: ./TestSuite/index.php');
+	}else{
+		header('location: index.html');
+	}
 }
 echo "</body>
 		</html>";

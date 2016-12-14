@@ -2,6 +2,9 @@
 require_once('./inc/serverConnect.php');
 
 $user = $_COOKIE['user'];
+if(isset($_POST['testuser'])){
+	$user = $_POST['testuser'];
+}
 $query= "SELECT date,meal,shopping FROM Meals WHERE user_id = '".$user."'";
 $result = $conn->query($query);
 echo "<html>
