@@ -71,15 +71,18 @@ for($m=1;$m<=$mealQty;$m++){
 			<tr>
 			 <td><h2>Protein:</h2></td>
 			 <td><div class="macroDisplay" goal="<?php echo $curMealProtein?>"></div></td>
-			 <td><div class="" goal="<?php echo $curMealProtein?>"></div></td>
+			  <input type="hidden" class="macroValue" name="proteinPerMeal[]" value="<?php echo $curMealProtein?>"/>
+			 <td>
 			</tr>
 			<tr>
 			 <td><h2>Carbs:</h2></td>
 			 <td><div class="macroDisplay" goal="<?php echo $curMealCarb?>"></div></td>
+			  <input type="hidden" class="macroValue" name="carbPerMeal[]" value="<?php echo $curMealCarb?>"/>
 			</tr>
 			<tr>
 			 <td><h2>Fat:</h2></td>
 			 <td><div class="macroDisplay" goal="<?php echo $curMealFat?>"></div></td>
+			  <input type="hidden" class="macroValue" name="fatPerMeal[]" value="<?php echo $curMealFat?>"/>
 			</tr>
 			</table>
 			<div class="foodWrapper">

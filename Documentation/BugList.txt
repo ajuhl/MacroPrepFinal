@@ -1,0 +1,8 @@
+BUG LIST
+--------------
+
+- NNLS algorithm sometimes undershoots serving sizes, likely a problem due to the tolerance value
+
+- Refreshing the shopping list page creates a new SQL entry every time
+
+- User allowed to continue without selecting any food for a meal

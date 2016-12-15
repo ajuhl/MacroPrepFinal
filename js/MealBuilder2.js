@@ -140,6 +140,13 @@ function updateDisplayForMeal(meal){
 	var carbDisplay    = $($('.macroDisplay')[(meal-1)*3+1]);
 	var fatDisplay     = $($('.macroDisplay')[(meal-1)*3+2]);
 
+	var proteinValue = $($('.macroValue')[(meal-1)*3+0]);
+	var carbValue    = $($('.macroValue')[(meal-1)*3+1]);
+	var fatValue     = $($('.macroValue')[(meal-1)*3+2]);
+	proteinValue.value = mealProtein;
+	carbValue.value = mealCarb;
+	fatValue.value = mealFat;
+
 	var proteinGoal = proteinDisplay.attr('goal');
 	var carbGoal    = carbDisplay.attr('goal');
 	var fatGoal     = fatDisplay.attr('goal');

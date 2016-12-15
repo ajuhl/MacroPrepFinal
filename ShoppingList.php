@@ -15,6 +15,10 @@ function scaleServingSize($original,$servings){
 	$newAmount =  number_format($servings*$originalAmount, 2, '.', ',');
 	return ($newAmount.$measure);
 }
+
+$proteinTotals = $_POST['proteinPerMeal'];
+$carbTotals = $_POST['carbPerMeal'];
+$fatTotals = $_POST['fatPerMeal'];
 ?>
 
 <html>
@@ -92,6 +96,7 @@ form{
 				$foodIndex = 0;
 				foreach ($_POST['foodsPerMeal'] as $mealIndex => $numFoods){
 					echo '<h3>Meal '.($mealIndex+1).'</h3>';
+					echo '<p><b>Protein: '.$proteinTotals[$mealIndex].'g  Carbs: '.$carbTotals[$mealIndex].'g  Fat: '.$fatTotals[$mealIndex].'g</b></p>';
 					for($x=0;$x<$numFoods;$x++){
 						if($_POST['servings'][$foodIndex]>0){
 							$result = $conn->query('SELECT * FROM `foods` WHERE `id`='.$_POST['foodIDs'][$foodIndex]);
