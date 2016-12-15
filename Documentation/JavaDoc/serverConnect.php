@@ -5,7 +5,7 @@
 * @param $username the userneame for the database
 * @param $password the password for the database
 * @param $db_name the name of the database to connect to
-* \cite learned from w3schools.com at one point
+* \cite learned from w3schools.com at one point time
 */
 $servername = "mysql.eecs.ku.edu";
 $username = "sdiffin";
