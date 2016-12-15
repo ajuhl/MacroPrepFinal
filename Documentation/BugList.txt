@@ -6,3 +6,7 @@ BUG LIST
 - Refreshing the shopping list page creates a new SQL entry every time
 
 - User allowed to continue without selecting any food for a meal
+
+-Time Stamp on saved plans is off by roughly 5 hours.
+
+-If the user adjusts macros over or under preset goal on MealBuilder.php, then the altered daily goal is not refelected on MealBuilder2.php.
