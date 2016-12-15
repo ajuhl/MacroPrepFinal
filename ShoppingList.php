@@ -56,12 +56,8 @@ function scaleServingSize($original,$servings){
 }
 
 
-form{
-	display: inline;
-	text-align: center;
-}
-
 .submit {
+  display: inline;
   background-color: black;
   color: rgba(252,227,0,1);
   border-radius: 2px;
@@ -73,6 +69,10 @@ form{
   cursor: pointer;
   padding: 10px;
 }
+form{
+	display: inline;
+	margin: auto;
+	}
 .buttons{
 	text-align: center;
 }
@@ -136,6 +136,17 @@ $user = $_COOKIE['user'];
 $insert = "INSERT INTO Meals (user_id, meal, shopping) VALUES ('".$user."', '".$meal."','".$shopping."')";
 $conn->query($insert);
 ?>
+					<div class='buttons'>
+								<form action='MealPlanner.html'>
+									<input type='submit'  class='submit' value='Input Macros'>
+								</form>
+								<form action='HealthFunctions.php'>
+									<input type='submit'  class='submit' value='Calculate Macros'>
+								</form>
+								<form action='Saved.php'>
+									<input type='submit'  class='submit' value='View Saved MacroPreps'>
+								</form>
+					</div>
 </body>
 
 </html>
