@@ -23,7 +23,7 @@ require_once('./inc/serverConnect.php');
 <body>
 
 <div class="foodSelectTemplate">
-			<select class="foodSelect" name="newFood">
+			<select class="foodSelect" name="newFood" required>
 				<option></option>
 <?php
 				error_reporting(E_ALL);
